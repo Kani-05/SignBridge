@@ -1,0 +1,3396 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="default" data-fontsize="medium">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SignBridge - An accessible, beginner-friendly sign language learning and communication platform featuring ASL and ISL visual cards, interactive dictionary, alphabet guide, step-by-step learn mode, and quizzes.">
+    <title>SignBridge | Learn Sign Language & Communicate Inclusively</title>
+    <style>
+/* ==========================================================================
+   SIGNBRIDGE ACCESSIBLE DESIGN SYSTEM & STYLESHEET
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS Custom Properties / Color Tokens
+   -------------------------------------------------------------------------- */
+:root {
+    /* Brand Colors */
+    --color-primary: #4F46E5;
+    --color-primary-hover: #4338CA;
+    --color-primary-light: #EEF2FF;
+    --color-secondary: #0EA5E9;
+    --color-secondary-hover: #0284C7;
+    --color-accent: #EC4899;
+    --color-accent-light: #FDF2F8;
+
+    /* Status Colors */
+    --color-success: #10B981;
+    --color-success-bg: #ECFDF5;
+    --color-warning: #F59E0B;
+    --color-danger: #EF4444;
+    --color-danger-bg: #FEF2F2;
+
+    /* Base Neutral Palette */
+    --color-bg-app: #F8FAFC;
+    --color-bg-card: #FFFFFF;
+    --color-bg-secondary: #F1F5F9;
+    --color-text-main: #0F172A;
+    --color-text-muted: #475569;
+    --color-border: #E2E8F0;
+    --color-focus: #4F46E5;
+
+    /* Typography */
+    --font-heading: 'Lexend', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --base-font-size: 16px;
+
+    /* Elevation / Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+    /* Layout & Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-full: 9999px;
+    --container-max-width: 1200px;
+    --transition-standard: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* High Contrast Mode Overrides */
+[data-theme="contrast"] {
+    --color-primary: #0000FF;
+    --color-primary-hover: #00008B;
+    --color-primary-light: #FFFF00;
+    --color-secondary: #008080;
+    --color-secondary-hover: #005757;
+    --color-accent: #800080;
+
+    --color-bg-app: #000000;
+    --color-bg-card: #121212;
+    --color-bg-secondary: #1E1E1E;
+    --color-text-main: #FFFFFF;
+    --color-text-muted: #E0E0E0;
+    --color-border: #FFFFFF;
+    --color-focus: #FFFF00;
+
+    --color-success: #00FF00;
+    --color-success-bg: #003300;
+    --color-danger: #FF0000;
+    --color-danger-bg: #330000;
+
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
+}
+
+/* Text Size Adjustments */
+[data-fontsize="large"] {
+    --base-font-size: 18px;
+}
+[data-fontsize="xlarge"] {
+    --base-font-size: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset & Core Base Styles
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: var(--base-font-size);
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-bg-app);
+    color: var(--color-text-main);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Accessibility Focus Visible */
+*:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* Screen Reader Only Utility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Skip Link */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 20px;
+    background: var(--color-primary);
+    color: #FFFFFF;
+    padding: 12px 20px;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    z-index: 9999;
+    text-decoration: none;
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+    top: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   3. Header & Navigation Bar
+   -------------------------------------------------------------------------- */
+.app-header {
+    background-color: var(--color-bg-card);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+}
+
+.header-container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--color-text-main);
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+[data-theme="contrast"] .logo-icon {
+    background-color: #0000FF;
+    color: #FFFFFF;
+}
+
+.logo-text {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.logo-dot {
+    color: var(--color-primary);
+}
+
+.main-nav .nav-list {
+    display: flex;
+    list-style: none;
+    gap: 0.5rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    transition: var(--transition-standard);
+}
+
+.nav-link:hover {
+    color: var(--color-primary);
+    background-color: var(--color-bg-secondary);
+}
+
+.nav-link.active {
+    color: var(--color-primary);
+    background-color: var(--color-primary-light);
+}
+
+[data-theme="contrast"] .nav-link.active {
+    background-color: #FFFF00;
+    color: #000000;
+}
+
+/* Accessibility Tools & Controls */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.a11y-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--color-bg-secondary);
+    padding: 4px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+}
+
+.icon-btn, .btn-text-size {
+    background: transparent;
+    border: none;
+    color: var(--color-text-main);
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-standard);
+}
+
+.icon-btn:hover, .btn-text-size:hover {
+    background-color: var(--color-bg-card);
+}
+
+.font-size-adjuster {
+    display: flex;
+    gap: 2px;
+}
+
+.mobile-toggle-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 6px;
+    cursor: pointer;
+}
+
+.hamburger-bar {
+    width: 100%;
+    height: 3px;
+    background-color: var(--color-text-main);
+    border-radius: 2px;
+    transition: var(--transition-standard);
+}
+
+/* --------------------------------------------------------------------------
+   4. Main Layout & Section Views
+   -------------------------------------------------------------------------- */
+.main-layout {
+    flex: 1;
+    max-width: var(--container-max-width);
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+.view-section {
+    display: none;
+    animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.view-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.section-header.text-center {
+    text-align: center;
+    justify-content: center;
+}
+
+.section-title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--color-text-main);
+}
+
+.section-subtitle {
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+    margin-top: 0.25rem;
+}
+
+/* --------------------------------------------------------------------------
+   5. Buttons & Badges Component Library
+   -------------------------------------------------------------------------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: var(--radius-md);
+    border: 2px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: var(--transition-standard);
+    line-height: 1.2;
+}
+
+.btn-large {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border-radius: var(--radius-md);
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: #FFFFFF;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+    background-color: var(--color-bg-card);
+    color: var(--color-text-main);
+    border-color: var(--color-border);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-bg-secondary);
+    border-color: var(--color-text-muted);
+}
+
+.btn-learned-toggle {
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-main);
+    border-color: var(--color-border);
+}
+
+.btn-learned-toggle.is-learned {
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
+    border-color: var(--color-success);
+}
+
+.btn-text-link {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    padding: 0.4rem 1rem;
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+.badge-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+}
+
+.tag-badge {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.tag-lang {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+}
+
+.tag-category {
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   6. Hero Section
+   -------------------------------------------------------------------------- */
+.hero-container {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    padding: 3rem 0 4rem;
+}
+
+.hero-title {
+    font-family: var(--font-heading);
+    font-size: 3.25rem;
+    font-weight: 800;
+    line-height: 1.15;
+    margin: 1.25rem 0 1rem;
+    letter-spacing: -0.03em;
+}
+
+.text-highlight {
+    color: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+[data-theme="contrast"] .text-highlight {
+    background: none;
+    -webkit-text-fill-color: initial;
+    color: #FFFF00;
+}
+
+.hero-description {
+    font-size: 1.2rem;
+    color: var(--color-text-muted);
+    max-width: 580px;
+    margin-bottom: 2rem;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+}
+
+.hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-num {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-primary);
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+}
+
+.stat-divider {
+    width: 1px;
+    height: 36px;
+    background-color: var(--color-border);
+}
+
+.hero-visual {
+    position: relative;
+}
+
+.hero-illustration-box {
+    background: var(--color-bg-card);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--color-border);
+}
+
+/* Feature Grid */
+.features-section {
+    padding: 4rem 0 2rem;
+}
+
+.grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.grid-3 {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.grid-cards {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.grid-alphabet {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+}
+
+.feature-card {
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-standard);
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.feature-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+}
+
+.icon-bg-blue { background-color: var(--color-primary-light); color: var(--color-primary); }
+.icon-bg-purple { background-color: #F3E8FF; color: #9333EA; }
+.icon-bg-teal { background-color: #E0F2FE; color: #0284C7; }
+
+.feature-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+}
+
+/* --------------------------------------------------------------------------
+   7. Dictionary Section
+   -------------------------------------------------------------------------- */
+.filter-toolbar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.search-box {
+    position: relative;
+    flex: 1;
+    min-width: 280px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    pointer-events: none;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 0.85rem 2.8rem 0.85rem 2.8rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg-card);
+    color: var(--color-text-main);
+    font-size: 1rem;
+    font-family: var(--font-body);
+}
+
+.search-clear-btn {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+}
+
+.select-wrapper select {
+    padding: 0.85rem 1.25rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg-card);
+    color: var(--color-text-main);
+    font-size: 1rem;
+    font-family: var(--font-body);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.category-pills {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.pill-btn {
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    padding: 0.5rem 1.1rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: var(--transition-standard);
+}
+
+.pill-btn:hover {
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-main);
+}
+
+.pill-btn.active {
+    background-color: var(--color-primary);
+    color: #FFFFFF;
+    border-color: var(--color-primary);
+}
+
+.results-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+}
+
+/* Card Component */
+.sign-card {
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition-standard);
+    box-shadow: var(--shadow-sm);
+}
+
+.sign-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary);
+}
+
+.sign-card-visual {
+    height: 180px;
+    background-color: var(--color-bg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    position: relative;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.sign-card-visual svg {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.sign-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.sign-card-body {
+    padding: 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.sign-card-title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.sign-card-desc {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+    flex: 1;
+}
+
+.sign-card-footer {
+    display: flex;
+    gap: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background-color: var(--color-bg-card);
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--color-border);
+}
+
+.empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   8. Alphabet Section
+   -------------------------------------------------------------------------- */
+.lang-switch-group {
+    display: flex;
+    background-color: var(--color-bg-secondary);
+    padding: 4px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+}
+
+.lang-tab {
+    background: transparent;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: var(--transition-standard);
+}
+
+.lang-tab.active {
+    background-color: var(--color-bg-card);
+    color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.info-alert {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: var(--color-primary-light);
+    border-left: 4px solid var(--color-primary);
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+}
+
+.alphabet-card {
+    background-color: var(--color-bg-card);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 1rem 0.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition-standard);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.alphabet-card:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.alphabet-card-letter {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--color-primary);
+}
+
+.alphabet-card-visual {
+    width: 60px;
+    height: 60px;
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   9. Learn Section (Flashcards)
+   -------------------------------------------------------------------------- */
+.flashcard-wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+
+.flashcard-progress-bar-container {
+    height: 6px;
+    background-color: var(--color-bg-secondary);
+    width: 100%;
+}
+
+.flashcard-progress-fill {
+    height: 100%;
+    background-color: var(--color-primary);
+    transition: width 0.3s ease;
+}
+
+.flashcard-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.75rem 0.75rem;
+}
+
+.flashcard-counter {
+    font-weight: 700;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+}
+
+.flashcard-tags {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.flashcard-inner {
+    padding: 1.5rem 1.75rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.flashcard-visual {
+    width: 100%;
+    height: 240px;
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+}
+
+.flashcard-title {
+    font-family: var(--font-heading);
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+}
+
+.flashcard-desc {
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+    margin-bottom: 1.25rem;
+    max-width: 520px;
+}
+
+.flashcard-tips {
+    background-color: var(--color-bg-secondary);
+    padding: 0.85rem 1.25rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    margin-bottom: 1.75rem;
+    max-width: 520px;
+}
+
+.flashcard-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.flashcard-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.75rem;
+    background-color: var(--color-bg-secondary);
+    border-top: 1px solid var(--color-border);
+}
+
+.flashcard-nav-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.nav-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--color-border);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.nav-dot.active {
+    background-color: var(--color-primary);
+    width: 20px;
+    border-radius: var(--radius-full);
+}
+
+/* --------------------------------------------------------------------------
+   10. Quiz Section
+   -------------------------------------------------------------------------- */
+.quiz-wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 2rem;
+}
+
+.quiz-score-tracker {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    font-weight: 800;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-full);
+    font-size: 0.95rem;
+}
+
+.quiz-question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+}
+
+.quiz-visual {
+    width: 100%;
+    height: 220px;
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--color-border);
+    padding: 1rem;
+}
+
+.quiz-options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.quiz-option-btn {
+    background-color: var(--color-bg-card);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    cursor: pointer;
+    text-align: left;
+    transition: var(--transition-standard);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.quiz-option-btn:hover:not(:disabled) {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-light);
+}
+
+.quiz-option-btn.correct {
+    background-color: var(--color-success-bg);
+    border-color: var(--color-success);
+    color: var(--color-success);
+}
+
+.quiz-option-btn.incorrect {
+    background-color: var(--color-danger-bg);
+    border-color: var(--color-danger);
+    color: var(--color-danger);
+}
+
+.quiz-feedback-banner {
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.quiz-feedback-banner.correct {
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
+    border: 1px solid var(--color-success);
+}
+
+.quiz-feedback-banner.incorrect {
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger);
+    border: 1px solid var(--color-danger);
+}
+
+.quiz-summary-card {
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.quiz-score-badge-large {
+    font-size: 3.5rem;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    color: var(--color-primary);
+    margin: 1rem 0;
+}
+
+/* --------------------------------------------------------------------------
+   11. About Section & Guidelines
+   -------------------------------------------------------------------------- */
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.about-card {
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+}
+
+.about-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+}
+
+.about-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.about-card p {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+}
+
+.disclaimer-box {
+    background-color: #FFFBEB;
+    border: 1px solid #FCD34D;
+    border-radius: var(--radius-md);
+    padding: 1.5rem 2rem;
+    color: #78350F;
+    margin-bottom: 2rem;
+}
+
+[data-theme="contrast"] .disclaimer-box {
+    background-color: #332B00;
+    border-color: #FFFF00;
+    color: #FFFFFF;
+}
+
+.disclaimer-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-heading);
+    margin-bottom: 0.5rem;
+}
+
+.customization-guide-box {
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+}
+
+.customization-guide-box h4 {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
+}
+
+.customization-guide-box ol {
+    margin-left: 1.25rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+}
+
+/* --------------------------------------------------------------------------
+   12. Modal Component
+   -------------------------------------------------------------------------- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    padding: 1.5rem;
+}
+
+.modal-overlay[aria-hidden="false"] {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-card {
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 520px;
+    padding: 2rem;
+    position: relative;
+    box-shadow: var(--shadow-xl);
+    transform: translateY(20px);
+    transition: transform 0.25s ease;
+}
+
+.modal-overlay[aria-hidden="false"] .modal-card {
+    transform: translateY(0);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-header {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.modal-visual-box {
+    width: 100%;
+    height: 200px;
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+}
+
+.modal-title {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.modal-description {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+}
+
+.modal-tip-box {
+    background-color: var(--color-bg-secondary);
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* --------------------------------------------------------------------------
+   13. Footer Component
+   -------------------------------------------------------------------------- */
+.app-footer {
+    background-color: var(--color-bg-card);
+    border-top: 1px solid var(--color-border);
+    margin-top: 4rem;
+    padding: 2.5rem 1.5rem;
+}
+
+.footer-container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.footer-brand p {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+}
+
+.footer-links {
+    display: flex;
+    gap: 0.75rem;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+}
+
+/* --------------------------------------------------------------------------
+   14. Responsive Layout (Mobile & Tablet)
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+    .hero-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 1.5rem 0 2rem;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .main-nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: var(--color-bg-card);
+        border-bottom: 1px solid var(--color-border);
+        box-shadow: var(--shadow-lg);
+        padding: 1rem 1.5rem;
+    }
+
+    .main-nav.is-open {
+        display: block;
+    }
+
+    .main-nav .nav-list {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .mobile-toggle-btn {
+        display: flex;
+    }
+
+    .quiz-options-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .section-title {
+        font-size: 1.6rem;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+    }
+
+    .btn-large {
+        width: 100%;
+    }
+
+    .hero-stats {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .stat-divider {
+        display: none;
+    }
+
+    .flashcard-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .flashcard-actions .btn {
+        width: 100%;
+    }
+
+    .flashcard-controls {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   16. Animated Vector Hand SVG Graphics & Keyframes
+   -------------------------------------------------------------------------- */
+.anim-wave {
+    transform-origin: bottom center;
+    animation: animWave 2.4s ease-in-out infinite;
+}
+
+@keyframes animWave {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
+}
+
+.anim-tap {
+    animation: animTap 2s ease-in-out infinite;
+}
+
+@keyframes animTap {
+    0%, 100% { transform: translate(0, 0); }
+    30% { transform: translate(-3px, 0); }
+    45% { transform: translate(0, 0); }
+    60% { transform: translate(-3px, 0); }
+    75% { transform: translate(0, 0); }
+}
+
+.anim-nod {
+    transform-origin: bottom center;
+    animation: animNod 1.8s ease-in-out infinite;
+}
+
+@keyframes animNod {
+    0%, 100% { transform: rotate(0deg); }
+    30% { transform: rotate(6deg); }
+    60% { transform: rotate(-3deg); }
+}
+
+.anim-pinch {
+    animation: animPinch 1.8s ease-in-out infinite;
+}
+
+@keyframes animPinch {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(0.97) translate(1px, 1px); }
+}
+
+.anim-lift {
+    animation: animLift 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes animLift {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.anim-rub {
+    transform-origin: center;
+    animation: animRub 2.8s linear infinite;
+}
+
+@keyframes animRub {
+    0% { transform: rotate(0deg) translate(0, 0); }
+    25% { transform: rotate(2deg) translate(2px, -1px); }
+    50% { transform: rotate(0deg) translate(0, -2px); }
+    75% { transform: rotate(-2deg) translate(-2px, -1px); }
+    100% { transform: rotate(0deg) translate(0, 0); }
+}
+
+.anim-pulse {
+    animation: animPulse 3s ease-in-out infinite;
+}
+
+@keyframes animPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+.anim-dash {
+    stroke-dasharray: 6;
+    animation: animDash 1.4s linear infinite;
+}
+
+@keyframes animDash {
+    to {
+        stroke-dashoffset: -12;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   15. Motion Accessibility
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+</style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Accessibility Skip Link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Live Announcer for Screen Readers -->
+    <div id="aria-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Header & Navigation -->
+    <header class="app-header">
+        <div class="header-container">
+            <a href="#home" class="logo-link" aria-label="SignBridge Home">
+                <div class="logo-icon" aria-hidden="true">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
+                        <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v6"></path>
+                        <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"></path>
+                        <path d="M18 8a2 2 0 0 1 2 2v4a6 6 0 0 1-6 6h-2a6 6 0 0 1-6-6v-1.5"></path>
+                    </svg>
+                </div>
+                <span class="logo-text">SignBridge<span class="logo-dot">.</span></span>
+            </a>
+
+            <!-- Desktop & Main Navigation -->
+            <nav class="main-nav" aria-label="Main Navigation">
+                <ul class="nav-list" id="nav-list">
+                    <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+                    <li><a href="#dictionary" class="nav-link" data-section="dictionary">Dictionary</a></li>
+                    <li><a href="#alphabet" class="nav-link" data-section="alphabet">Alphabet</a></li>
+                    <li><a href="#learn" class="nav-link" data-section="learn">Learn</a></li>
+                    <li><a href="#quiz" class="nav-link" data-section="quiz">Quiz</a></li>
+                    <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+                </ul>
+            </nav>
+
+            <!-- Accessibility Quick Tools & Mobile Toggle -->
+            <div class="header-actions">
+                <div class="a11y-controls" aria-label="Accessibility Settings">
+                    <button id="contrast-toggle" class="icon-btn" aria-label="Toggle high contrast mode" title="Toggle High Contrast Mode">
+                        <svg class="contrast-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 2a10 10 0 0 1 0 20z" fill="currentColor"></path>
+                        </svg>
+                    </button>
+                    <div class="font-size-adjuster" role="group" aria-label="Text size options">
+                        <button id="font-decrease" class="btn-text-size" aria-label="Decrease text size" title="Smaller text">A-</button>
+                        <button id="font-increase" class="btn-text-size" aria-label="Increase text size" title="Larger text">A+</button>
+                    </div>
+                </div>
+
+                <button id="mobile-menu-btn" class="mobile-toggle-btn" aria-label="Open menu" aria-expanded="false" aria-controls="nav-list">
+                    <span class="hamburger-bar"></span>
+                    <span class="hamburger-bar"></span>
+                    <span class="hamburger-bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="main-content" class="main-layout">
+
+        <!-- ================= HERO / HOME SECTION ================= -->
+        <section id="home" class="view-section active">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <div class="badge-pill">
+                        <span class="badge-dot"></span>
+                        <span class="badge-text">Accessible Sign Language Platform</span>
+                    </div>
+                    <h1 class="hero-title">Learn. Sign. <span class="text-highlight">Connect.</span></h1>
+                    <p class="hero-description">
+                        Bridge communication gaps through interactive visual cards, fingerspelling alphabet guides, and self-paced practice modules designed for everyone.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#learn" class="btn btn-primary btn-large nav-trigger" data-section="learn">
+                            <span>Start Learning Now</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </a>
+                        <a href="#dictionary" class="btn btn-secondary btn-large nav-trigger" data-section="dictionary">
+                            <span>Explore Dictionary</span>
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-num" id="stat-count-signs">25+</span>
+                            <span class="stat-label">Core Signs & Alphabets</span>
+                        </div>
+                        <div class="stat-divider" aria-hidden="true"></div>
+                        <div class="stat-item">
+                            <span class="stat-num">ASL & ISL</span>
+                            <span class="stat-label">Language Support</span>
+                        </div>
+                        <div class="stat-divider" aria-hidden="true"></div>
+                        <div class="stat-item">
+                            <span class="stat-num">100%</span>
+                            <span class="stat-label">Accessible & Free</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="visual-card-stack">
+                        <div class="hero-illustration-box">
+                            <svg class="hero-svg-graphic" viewBox="0 0 400 320" width="100%" height="100%" aria-label="Illustration showing visual sign language communication hands and waves">
+                                <defs>
+                                    <linearGradient id="heroGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#4F46E5" />
+                                        <stop offset="100%" stop-color="#06B6D4" />
+                                    </linearGradient>
+                                    <linearGradient id="heroGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#EC4899" />
+                                        <stop offset="100%" stop-color="#8B5CF6" />
+                                    </linearGradient>
+                                </defs>
+                                <circle cx="200" cy="160" r="120" fill="url(#heroGrad1)" opacity="0.1" />
+                                <circle cx="200" cy="160" r="85" fill="none" stroke="url(#heroGrad1)" stroke-width="2" stroke-dasharray="8 8" />
+                                
+                                <!-- Left Hand Wave/Sign -->
+                                <g transform="translate(110, 80)">
+                                    <rect x="0" y="0" width="85" height="110" rx="16" fill="#FFFFFF" filter="drop-shadow(0 10px 15px rgba(0,0,0,0.08))"/>
+                                    <path d="M25 75V40A6 6 0 0 1 37 40V75" stroke="#4F46E5" stroke-width="5" stroke-linecap="round"/>
+                                    <path d="M37 75V30A6 6 0 0 1 49 30V75" stroke="#4F46E5" stroke-width="5" stroke-linecap="round"/>
+                                    <path d="M49 75V35A6 6 0 0 1 61 35V75" stroke="#4F46E5" stroke-width="5" stroke-linecap="round"/>
+                                    <path d="M61 75V45A6 6 0 0 1 73 45V75" stroke="#4F46E5" stroke-width="5" stroke-linecap="round"/>
+                                    <path d="M25 55L12 65A6 6 0 0 0 18 76L25 75" stroke="#4F46E5" stroke-width="5" stroke-linecap="round"/>
+                                    <text x="42" y="98" font-size="12" font-weight="700" fill="#4F46E5" text-anchor="middle">"Hello"</text>
+                                </g>
+
+                                <!-- Right Hand Love/Sign -->
+                                <g transform="translate(210, 110)">
+                                    <rect x="0" y="0" width="85" height="110" rx="16" fill="#FFFFFF" filter="drop-shadow(0 10px 15px rgba(0,0,0,0.08))"/>
+                                    <path d="M25 75V30A6 6 0 0 1 37 30V75" stroke="#EC4899" stroke-width="5" stroke-linecap="round"/>
+                                    <path d="M37 55V45A6 6 0 0 1 49 45V75" stroke="#EC4899" stroke-width="5" stroke-linecap="round"/>
+                                    <path d="M49 55V48A6 6 0 0 1 61 48V75" stroke="#EC4899" stroke-width="5" stroke-linecap="round"/>
+                                    <path d="M61 75V32A6 6 0 0 1 73 32V75" stroke="#EC4899" stroke-width="5" stroke-linecap="round"/>
+                                    <path d="M25 45L10 32A6 6 0 0 0 2 40L25 65" stroke="#EC4899" stroke-width="5" stroke-linecap="round"/>
+                                    <text x="42" y="98" font-size="12" font-weight="700" fill="#EC4899" text-anchor="middle">"I Love You"</text>
+                                </g>
+
+                                <!-- Connecting Bridge Lines -->
+                                <path d="M 195 135 C 205 100, 215 100, 225 135" fill="none" stroke="url(#heroGrad2)" stroke-width="3" stroke-dasharray="4 4" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why Learning Sign Language Matters -->
+            <div class="features-section">
+                <div class="section-header text-center">
+                    <h2 class="section-title">Why Learning Sign Language Matters</h2>
+                    <p class="section-subtitle">Sign language is a vibrant, complete visual language that connects millions worldwide.</p>
+                </div>
+                <div class="grid grid-3">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-bg-blue">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        </div>
+                        <h3>Promote Inclusion</h3>
+                        <p>Break communication barriers and build an inclusive society for Deaf and hard-of-hearing community members.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon icon-bg-purple">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                        </div>
+                        <h3>Visual-Spatial Cognition</h3>
+                        <p>Enhance visual processing, spatial awareness, and cognitive flexibility through non-verbal communication skills.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon icon-bg-teal">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                        </div>
+                        <h3>Global Awareness</h3>
+                        <p>Understand sign language systems like ASL (American Sign Language) and ISL (Indian Sign Language) with cultural appreciation.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= DICTIONARY SECTION ================= -->
+        <section id="dictionary" class="view-section">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Sign Language Dictionary</h2>
+                    <p class="section-subtitle">Search and filter common signs across categories and language systems.</p>
+                </div>
+            </div>
+
+            <!-- Search & Filter Controls -->
+            <div class="filter-toolbar">
+                <div class="search-box">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="dict-search-input" placeholder="Search signs by name or keyword..." aria-label="Search signs dictionary">
+                    <button id="dict-search-clear" class="search-clear-btn" aria-label="Clear search input" hidden>&times;</button>
+                </div>
+
+                <div class="filter-controls-group">
+                    <div class="select-wrapper">
+                        <label for="dict-lang-filter" class="sr-only">Sign Language System</label>
+                        <select id="dict-lang-filter" aria-label="Filter by sign language system">
+                            <option value="all">All Languages (ASL & ISL)</option>
+                            <option value="ASL">ASL (American Sign Language)</option>
+                            <option value="ISL">ISL (Indian Sign Language)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Pills -->
+            <div class="category-pills" role="tablist" aria-label="Category Filters" id="category-pills">
+                <button class="pill-btn active" role="tab" aria-selected="true" data-category="all">All Signs</button>
+                <button class="pill-btn" role="tab" aria-selected="false" data-category="Greetings">Greetings</button>
+                <button class="pill-btn" role="tab" aria-selected="false" data-category="Common Words">Common Words</button>
+                <button class="pill-btn" role="tab" aria-selected="false" data-category="Alphabet">Alphabet</button>
+                <button class="pill-btn" role="tab" aria-selected="false" data-category="Numbers">Numbers</button>
+                <button class="pill-btn" role="tab" aria-selected="false" data-category="Questions">Questions</button>
+                <button class="pill-btn" role="tab" aria-selected="false" data-category="Family">Family</button>
+                <button class="pill-btn" role="tab" aria-selected="false" data-category="Food">Food</button>
+                <button class="pill-btn" role="tab" aria-selected="false" data-category="Emotions">Emotions</button>
+            </div>
+
+            <div class="results-meta">
+                <span id="dict-results-count" class="results-count">Showing 0 signs</span>
+                <button id="reset-filters-btn" class="btn-text-link" hidden>Reset filters</button>
+            </div>
+
+            <!-- Dictionary Grid Container -->
+            <div class="grid grid-cards" id="dictionary-grid">
+                <!-- Dynamic cards populated by JavaScript -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="dict-empty-state" class="empty-state" hidden>
+                <div class="empty-icon">🔍</div>
+                <h3>No signs found</h3>
+                <p>Try searching for a different word or clearing your category filter.</p>
+                <button class="btn btn-secondary" onclick="document.getElementById('dict-search-input').value=''; window.resetDictionaryFilters();">Clear All Filters</button>
+            </div>
+        </section>
+
+        <!-- ================= ALPHABET SECTION ================= -->
+        <section id="alphabet" class="view-section">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Fingerspelling Alphabet (A-Z)</h2>
+                    <p class="section-subtitle">Click any letter card to inspect hand shape details and practice fingerspelling.</p>
+                </div>
+                <div class="lang-switch-group" role="radiogroup" aria-label="Select Alphabet Language System">
+                    <button class="lang-tab active" role="radio" aria-checked="true" id="alpha-asl-btn" data-lang="ASL">ASL Alphabet</button>
+                    <button class="lang-tab" role="radio" aria-checked="false" id="alpha-isl-btn" data-lang="ISL">ISL Alphabet</button>
+                </div>
+            </div>
+
+            <div class="info-alert" role="note">
+                <span class="info-alert-icon">💡</span>
+                <span><strong>Fingerspelling Tip:</strong> Hold your signing hand near your chest with palm facing forward. Keep your movements fluid and spell out names, places, and words without sign equivalents.</span>
+            </div>
+
+            <!-- A-Z Grid -->
+            <div class="grid grid-alphabet" id="alphabet-grid">
+                <!-- Dynamically generated A-Z cards -->
+            </div>
+        </section>
+
+        <!-- ================= LEARN SECTION ================= -->
+        <section id="learn" class="view-section">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Interactive Practice Flashcards</h2>
+                    <p class="section-subtitle">Learn signs step-by-step at your own pace and track your progress.</p>
+                </div>
+                <div class="learn-header-stats">
+                    <span class="progress-badge">Learned: <strong id="learned-count">0</strong> / <span id="total-learn-count">0</span></span>
+                </div>
+            </div>
+
+            <!-- Learn Card Container -->
+            <div class="flashcard-wrapper">
+                <div class="flashcard-progress-bar-container" aria-label="Learning Progress">
+                    <div id="flashcard-progress-fill" class="flashcard-progress-fill" style="width: 0%;"></div>
+                </div>
+
+                <div class="flashcard-top-bar">
+                    <span id="flashcard-counter" class="flashcard-counter">Sign 1 of 10</span>
+                    <div class="flashcard-tags">
+                        <span id="flashcard-lang-tag" class="tag-badge tag-lang">ASL</span>
+                        <span id="flashcard-category-tag" class="tag-badge tag-category">Greetings</span>
+                    </div>
+                </div>
+
+                <!-- Main Interactive Flashcard -->
+                <div class="flashcard" id="main-flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-visual" id="flashcard-visual-container">
+                            <!-- Visual SVG loaded here dynamically -->
+                        </div>
+
+                        <div class="flashcard-details">
+                            <h3 id="flashcard-title" class="flashcard-title">Hello</h3>
+                            <p id="flashcard-desc" class="flashcard-desc">Raise dominant hand to forehead with palm facing outward, then extend outward in a polite wave motion.</p>
+                            
+                             <div class="flashcard-tips" id="flashcard-tip-box">
+                                 <strong>Usage Tip:</strong> Keep your movement smooth and welcoming.
+                             </div>
+
+                            <div class="flashcard-actions">
+                                <button id="mark-learned-btn" class="btn btn-learned-toggle">
+                                    <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <span id="learned-btn-text">Mark as Learned</span>
+                                </button>
+                                <button id="flip-card-btn" class="btn btn-secondary">
+                                    <span>Toggle Hint / Reveal</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flashcard Controls -->
+                <div class="flashcard-controls">
+                    <button id="prev-card-btn" class="btn btn-secondary btn-control" aria-label="Previous sign">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        <span>Previous</span>
+                    </button>
+
+                    <div class="flashcard-nav-dots" id="flashcard-dots" role="tablist" aria-label="Sign selection">
+                        <!-- Nav dots generated by JS -->
+                    </div>
+
+                    <button id="next-card-btn" class="btn btn-primary btn-control" aria-label="Next sign">
+                        <span>Next</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= QUIZ SECTION ================= -->
+        <section id="quiz" class="view-section">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Sign Language Quiz</h2>
+                    <p class="section-subtitle">Test your sign recognition skills and reinforce your learning.</p>
+                </div>
+                <div id="quiz-score-badge" class="quiz-score-tracker" hidden>
+                    Score: <span id="current-quiz-score">0</span>
+                </div>
+            </div>
+
+            <!-- Quiz Container -->
+            <div class="quiz-wrapper" id="quiz-wrapper">
+                <!-- Dynamic Quiz Content Rendered via JS -->
+            </div>
+        </section>
+
+        <!-- ================= ABOUT SECTION ================= -->
+        <section id="about" class="view-section">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">About SignBridge & Accessibility</h2>
+                    <p class="section-subtitle">Building empathetic digital bridges through accessible visual education.</p>
+                </div>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="about-icon icon-bg-blue">👋</div>
+                    <h3>What is Sign Language?</h3>
+                    <p>
+                        Sign languages are full-fledged natural languages with distinct grammatical rules, syntax, and cultural heritage. They express meaning using hand gestures, facial expressions, eye gaze, and body posture.
+                    </p>
+                </div>
+
+                <div class="about-card">
+                    <div class="about-icon icon-bg-purple">🤝</div>
+                    <h3>Why Learning Sign Language Matters</h3>
+                    <p>
+                        Learning even basic sign language breaks social isolation for Deaf and hard-of-hearing individuals. It fosters inclusivity in workplaces, schools, and public spaces, encouraging a more accessible world for all.
+                    </p>
+                </div>
+
+                <div class="about-card">
+                    <div class="about-icon icon-bg-teal">🎓</div>
+                    <h3>How SignBridge Helps Beginners</h3>
+                    <p>
+                        SignBridge provides a clear, structured visual approach. Beginners can explore categorised dictionary cards, practice fingerspelling letters, review step-by-step flashcards, and test recall with instant feedback quizzes.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Disclaimer Box -->
+            <div class="disclaimer-box">
+                <div class="disclaimer-header">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <h4>Regional Sign Language Disclaimer</h4>
+                </div>
+                <p>
+                    Sign languages are not universal. Different countries and communities use distinct sign systems. For example, <strong>American Sign Language (ASL)</strong> and <strong>Indian Sign Language (ISL)</strong> have different handshapes, fingerspelling systems (one-handed vs two-handed alphabet), and vocabularies. SignBridge clearly labels sample signs so learners understand these rich regional differences.
+                </p>
+            </div>
+
+            <!-- Developer / Customization Guide Box -->
+            <div class="customization-guide-box">
+                <h4>🖼️ Customization Guide: Replacing Visual Placeholders with Real Images/Videos</h4>
+                <p>
+                    SignBridge is engineered with modular vector representations and standard image structure. To replace vector visual placeholders with custom high-resolution photographs or animated GIFs/videos:
+                </p>
+                <ol>
+                    <li>Open <code>script.js</code> and locate the <code>SIGNS_DATA</code> array.</li>
+                    <li>Update the <code>imageSrc</code> property of any sign object (e.g. <code>imageSrc: "assets/signs/hello.gif"</code> or URL).</li>
+                    <li>If an image fails or is missing, SignBridge automatically falls back to the clean, scalable vector hand diagram.</li>
+                </ol>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Detailed Modal View for Sign / Alphabet -->
+    <div id="sign-modal" class="modal-overlay" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+        <div class="modal-card">
+            <button id="modal-close-btn" class="modal-close-btn" aria-label="Close dialog">&times;</button>
+            <div class="modal-header">
+                <span id="modal-tag-lang" class="tag-badge tag-lang">ASL</span>
+                <span id="modal-tag-cat" class="tag-badge tag-category">Alphabet</span>
+            </div>
+            <div id="modal-visual-container" class="modal-visual-box">
+                <!-- Populated dynamically -->
+            </div>
+            <div class="modal-body">
+                <h3 id="modal-title" class="modal-title">Letter A</h3>
+                <p id="modal-description" class="modal-description">Form a loose fist with fingers curled into palm and thumb resting upright along the side of the index finger.</p>
+                
+                <div class="modal-tip-box" id="modal-tip-box">
+                    <strong>Handshape Notes:</strong> Make sure the thumb stays on the side of the fist rather than tucked across the front.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="modal-practice-btn" class="btn btn-primary">Practice in Learn Mode</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="logo-text">SignBridge<span class="logo-dot">.</span></span>
+                <p>Empowering inclusive communication through accessible sign language education.</p>
+            </div>
+            <div class="footer-links">
+                <span>Accessibility Compliant (WCAG 2.1 AA)</span>
+                <span>•</span>
+                <a href="#about" class="nav-trigger" data-section="about">About Project</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+/**
+ * SignBridge - Accessible Sign Language Platform Script
+ * Standard ES6 JavaScript with LocalStorage & ARIA Accessibility
+ */
+
+(function () {
+    'use strict';
+
+    /* ==========================================================================
+       1. DATA STRUCTURE: SIGN LANGUAGE DATASET (ASL & ISL)
+       ========================================================================== */
+    const SIGNS_DATA = [
+        // --- GREETINGS ---
+        {
+            id: "greetings-hello-asl",
+            name: "Hello",
+            category: "Greetings",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Place your dominant hand near your forehead with palm facing outward, then move it smoothly away in a polite wave.",
+            tip: "Keep your movement smooth and welcoming.",
+            handshape: "Flat B-Hand near forehead extending outwards"
+        },
+        {
+            id: "greetings-thank-you-asl",
+            name: "Thank You",
+            category: "Greetings",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Touch your fingers to your chin with palm facing inward, then extend your hand forward toward the person.",
+            tip: "Accompany with a warm smile and slight head nod.",
+            handshape: "Flat hand starting at chin moving forward"
+        },
+        {
+            id: "greetings-please-asl",
+            name: "Please",
+            category: "Greetings",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Place your open dominant hand flat against your chest and make circular clockwise motions.",
+            tip: "Rub gently over your heart area.",
+            handshape: "Flat palm placed on chest rubbing in circular motion"
+        },
+        {
+            id: "greetings-goodbye-asl",
+            name: "Goodbye",
+            category: "Greetings",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Open your hand with palm facing forward, then curl your fingers up and down in a friendly wave.",
+            tip: "Standard open-hand wave used worldwide.",
+            handshape: "Open palm waving fingers up and down"
+        },
+        {
+            id: "greetings-namaste-isl",
+            name: "Namaste / Welcome",
+            category: "Greetings",
+            lang: "ISL",
+            imageSrc: "",
+            description: "Press both palms together at chest level in front of your sternum with fingers pointing upward and a slight bow.",
+            tip: "Traditional ISL sign for greeting and respecting others.",
+            handshape: "Two flat palms joined together at chest level"
+        },
+
+        // --- COMMON WORDS ---
+        {
+            id: "common-yes-asl",
+            name: "Yes",
+            category: "Common Words",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Make an S-hand (fist) and nod it up and down from the wrist, imitating a head nod.",
+            tip: "Keep your arm steady and flex only at the wrist.",
+            handshape: "Closed fist (S-hand) nodding up and down"
+        },
+        {
+            id: "common-no-asl",
+            name: "No",
+            category: "Common Words",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Snap your index finger and middle finger down against your thumb in a quick pinching movement.",
+            tip: "Repeated twice quickly for emphasis.",
+            handshape: "Index and middle fingers tapping against thumb"
+        },
+        {
+            id: "common-help-asl",
+            name: "Help",
+            category: "Common Words",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Place a thumb-up fist onto the open palm of your non-dominant hand, then move both upward together.",
+            tip: "The bottom hand literally supports and lifts the top hand.",
+            handshape: "A-hand fist on flat palm moving upwards"
+        },
+        {
+            id: "common-friend-asl",
+            name: "Friend",
+            category: "Common Words",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Hook your index fingers together in front of you, then reverse and hook them the opposite way.",
+            tip: "Symbolizes two interconnected individuals.",
+            handshape: "Hooked index fingers clasping each other twice"
+        },
+        {
+            id: "common-learn-asl",
+            name: "Learn",
+            category: "Common Words",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Place fingertips of one hand on your opposite palm, then lift them toward your forehead into a closed fist.",
+            tip: "Represents grasping knowledge off the page into your head.",
+            handshape: "Fingertips grasping from palm to forehead"
+        },
+
+        // --- QUESTIONS ---
+        {
+            id: "questions-what-asl",
+            name: "What",
+            category: "Questions",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Hold both hands in front of you with palms facing up and fingers slightly relaxed, moving them side to side.",
+            tip: "Combine with furrowed eyebrows for visual question syntax.",
+            handshape: "Open upward palms shaking side-to-side"
+        },
+        {
+            id: "questions-where-asl",
+            name: "Where",
+            category: "Questions",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Hold up your index finger (1-hand shape) and shake it side to side gently.",
+            tip: "Maintain a questioning facial expression.",
+            handshape: "Index finger extended pointing up and waving left-right"
+        },
+        {
+            id: "questions-how-asl",
+            name: "How",
+            category: "Questions",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Place curved hands together with knuckles touching, then roll them forward so palms face upward.",
+            tip: "Smooth outward rolling motion.",
+            handshape: "Curved fists rolling forward into open palms"
+        },
+
+        // --- FAMILY & FOOD & EMOTIONS ---
+        {
+            id: "family-mother-asl",
+            name: "Mother",
+            category: "Family",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Tap the thumb of an open 5-hand shape against your chin twice.",
+            tip: "Female family signs in ASL are situated around the chin line.",
+            handshape: "Open 5-hand thumb tapping chin"
+        },
+        {
+            id: "family-father-asl",
+            name: "Father",
+            category: "Family",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Tap the thumb of an open 5-hand shape against your forehead twice.",
+            tip: "Male family signs in ASL are situated around the forehead line.",
+            handshape: "Open 5-hand thumb tapping forehead"
+        },
+        {
+            id: "food-water-asl",
+            name: "Water",
+            category: "Food",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Form a W-hand shape (index, middle, ring finger up) and tap your index finger to your chin twice.",
+            tip: "W stands for Water.",
+            handshape: "W-hand shape tapping index finger on chin"
+        },
+        {
+            id: "emotions-happy-asl",
+            name: "Happy",
+            category: "Emotions",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Brush one or both flat hands in upward circular motions against your chest repeatedly.",
+            tip: "Show joy on your face as feelings lift upward.",
+            handshape: "Open palm sweeping upward on chest"
+        },
+        {
+            id: "emotions-love-asl",
+            name: "I Love You",
+            category: "Emotions",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Extend your thumb, index finger, and pinky finger while keeping middle and ring fingers down.",
+            tip: "Combines fingerspelling for letters I, L, and Y.",
+            handshape: "Thumb, index, and pinky finger extended"
+        },
+
+        // --- NUMBERS ---
+        {
+            id: "num-1-asl",
+            name: "Number 1",
+            category: "Numbers",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Extend index finger pointing straight up with palm facing inward.",
+            tip: "Simple single finger count.",
+            handshape: "Index finger upright"
+        },
+        {
+            id: "num-5-asl",
+            name: "Number 5",
+            category: "Numbers",
+            lang: "ASL",
+            imageSrc: "",
+            description: "Spread all five fingers wide with palm facing forward.",
+            tip: "Full hand spread.",
+            handshape: "All 5 fingers spread"
+        }
+    ];
+
+    // Alphabet Data Generation (A-Z for ASL & ISL)
+    const ALPHABET_DATA = {
+        ASL: [
+            { letter: "A", desc: "Fist with thumb resting upright on the side of index finger.", tip: "Thumb stays on side, not tucked inside." },
+            { letter: "B", desc: "Flat palm with fingers straight up and thumb tucked across palm.", tip: "Fingers together, thumb across." },
+            { letter: "C", desc: "Curve fingers and thumb into a crescent 'C' shape.", tip: "Look sideways to see 'C' curve." },
+            { letter: "D", desc: "Index finger upright, middle/ring/pinky touch thumb to form circle.", tip: "Index forms the stem of D." },
+            { letter: "E", desc: "Curl all fingertips down tightly to touch thumb tip.", tip: "Looks like a claw or bent fist." },
+            { letter: "F", desc: "Touch index and thumb tips to form circle; pinky, ring, middle straight up.", tip: "Like an 'OK' hand sign." },
+            { letter: "G", desc: "Index and thumb extended horizontally pointing left, parallel to ground.", tip: "Pinch gesture pointing sideways." },
+            { letter: "H", desc: "Index and middle fingers extended horizontally together.", tip: "Two fingers pointing sideways." },
+            { letter: "I", desc: "Fist with only pinky finger extended straight up.", tip: "Pinky upright." },
+            { letter: "J", desc: "Extend pinky finger like 'I' and trace a 'J' curve in the air.", tip: "Dynamic tracing sign." },
+            { letter: "K", desc: "Index finger up, middle finger forward, thumb resting at middle finger joint.", tip: "Peace sign with thumb between." },
+            { letter: "L", desc: "Index finger upright and thumb extended perpendicular to form 'L' shape.", tip: "Clear visual 'L'." },
+            { letter: "M", desc: "Tuck thumb under first three fingers (index, middle, ring).", tip: "Three humps over thumb." },
+            { letter: "N", desc: "Tuck thumb under first two fingers (index, middle).", tip: "Two humps over thumb." },
+            { letter: "O", desc: "Curve all fingertips down to meet thumb tip, forming letter 'O'.", tip: "Full oval shape." },
+            { letter: "P", desc: "Form 'K' handshape and point it downward toward ground.", tip: "Inverted 'K'." },
+            { letter: "Q", desc: "Form 'G' handshape pointing straight down.", tip: "Inverted 'G'." },
+            { letter: "R", desc: "Cross index finger over middle finger.", tip: "Fingers crossed for good luck." },
+            { letter: "S", desc: "Make a tight fist with thumb folded across front of fingers.", tip: "Thumb on top of clenched fingers." },
+            { letter: "T", desc: "Tuck thumb under index finger only.", tip: "One hump over thumb." },
+            { letter: "U", desc: "Index and middle fingers extended straight up together.", tip: "Two fingers pressed tight." },
+            { letter: "V", desc: "Index and middle fingers extended up in 'V' for victory.", tip: "Peace sign." },
+            { letter: "W", desc: "Index, middle, and ring fingers extended up in 'W' shape.", tip: "Three fingers spread." },
+            { letter: "X", desc: "Bend index finger into a hook, rest of fist closed.", tip: "Hooked index finger." },
+            { letter: "Y", desc: "Extend thumb and pinky finger outward, middle 3 fingers down.", tip: "Shaka / phone gesture." },
+            { letter: "Z", desc: "Use index finger to trace letter 'Z' in the air.", tip: "Dynamic Z stroke." }
+        ],
+        ISL: [
+            { letter: "A", desc: "Both hands: Dominant index finger touches non-dominant thumb tip.", tip: "Two-handed fingerspelling for ISL vowel." },
+            { letter: "B", desc: "Join tips of index finger and thumb on both hands to form two circles.", tip: "Resembles the two loops of 'B'." },
+            { letter: "C", desc: "Curve dominant hand into 'C' shape while resting on non-dominant palm.", tip: "Clear visual shape." },
+            { letter: "D", desc: "Non-dominant index up, dominant index/thumb form loop touching it.", tip: "Two-handed 'D' frame." },
+            { letter: "E", desc: "Dominant index touches non-dominant index finger tip.", tip: "Vowel point on second finger." },
+            { letter: "F", desc: "Index & middle fingers of right hand placed over index & middle of left.", tip: "Crossed two fingers." },
+            { letter: "G", desc: "Both fists together with thumbs pointing outward.", tip: "Double fist gesture." },
+            { letter: "H", desc: "Dominant palm sweeps horizontally across non-dominant upright palm.", tip: "Sweeping palm action." },
+            { letter: "I", desc: "Dominant index touches non-dominant middle finger tip.", tip: "Vowel point on middle finger." },
+            { letter: "J", desc: "Dominant index traces curve on non-dominant palm.", tip: "Palmar tracing." },
+            { letter: "K", desc: "Dominant index finger hooked over non-dominant upright index.", tip: "Joint hook." },
+            { letter: "L", desc: "Form 'L' with dominant hand resting on non-dominant flat palm.", tip: "L shape on palm base." },
+            { letter: "M", desc: "Lay three fingers of dominant hand across non-dominant palm.", tip: "Three finger touch." },
+            { letter: "N", desc: "Lay two fingers of dominant hand across non-dominant palm.", tip: "Two finger touch." },
+            { letter: "O", desc: "Dominant index touches non-dominant ring finger tip.", tip: "Vowel point on fourth finger." },
+            { letter: "P", desc: "Dominant index and thumb form circle touching non-dominant index.", tip: "P-loop contact." },
+            { letter: "Q", desc: "Hook non-dominant thumb and index into circle, dominant index hooked inside.", tip: "Interlocking loops." },
+            { letter: "R", desc: "Dominant index finger bent into curve placed on non-dominant palm.", tip: "Curved touch." },
+            { letter: "S", desc: "Link pinky fingers of both hands together.", tip: "Pinky interlock." },
+            { letter: "T", desc: "Dominant index finger edge pressed against non-dominant palm edge.", tip: "T-junction." },
+            { letter: "U", desc: "Dominant index touches non-dominant pinky finger tip.", tip: "Vowel point on pinky finger." },
+            { letter: "V", desc: "Lay dominant 'V' fingers over non-dominant palm.", tip: "V shape on palm." },
+            { letter: "W", desc: "Interlock fingers of both hands pointing upwards.", tip: "Interlaced fingers." },
+            { letter: "X", desc: "Cross both index fingers in an 'X' shape.", tip: "Crossed index fingers." },
+            { letter: "Y", desc: "Extend thumb between index and middle fingers on non-dominant hand.", tip: "Thumb fork." },
+            { letter: "Z", desc: "Hold side of dominant hand against non-dominant palm.", tip: "Base palm edge touch." }
+        ]
+    };
+
+    /* ==========================================================================
+       2. STATE MANAGEMENT & LOCAL STORAGE
+       ========================================================================== */
+    const STORAGE_KEYS = {
+        LEARNED: "signbridge_learned_signs",
+        THEME: "signbridge_theme",
+        FONT_SIZE: "signbridge_fontsize"
+    };
+
+    const state = {
+        activeSection: "home",
+        dictSearchQuery: "",
+        dictCategoryFilter: "all",
+        dictLangFilter: "all",
+        alphabetLang: "ASL",
+        learnedSigns: new Set(),
+        learnDeck: [...SIGNS_DATA],
+        currentLearnIndex: 0,
+        quizState: {
+            active: false,
+            questions: [],
+            currentIndex: 0,
+            score: 0,
+            answered: false,
+            userAnswers: []
+        },
+        theme: "default",
+        fontSize: "medium"
+    };
+
+    // Load initial stored values
+    function initLocalStorage() {
+        try {
+            const savedLearned = localStorage.getItem(STORAGE_KEYS.LEARNED);
+            if (savedLearned) {
+                const arr = JSON.parse(savedLearned);
+                state.learnedSigns = new Set(arr);
+            }
+            const savedTheme = localStorage.getItem(STORAGE_KEYS.THEME);
+            if (savedTheme) {
+                state.theme = savedTheme;
+            }
+            const savedFontSize = localStorage.getItem(STORAGE_KEYS.FONT_SIZE);
+            if (savedFontSize) {
+                state.fontSize = savedFontSize;
+            }
+        } catch (err) {
+            console.warn("LocalStorage access issue:", err);
+        }
+    }
+
+    function saveLearnedState() {
+        try {
+            const arr = Array.from(state.learnedSigns);
+            localStorage.setItem(STORAGE_KEYS.LEARNED, JSON.stringify(arr));
+        } catch (err) {
+            console.warn("Failed saving learned state:", err);
+        }
+    }
+
+    function saveThemeState() {
+        try {
+            localStorage.setItem(STORAGE_KEYS.THEME, state.theme);
+            localStorage.setItem(STORAGE_KEYS.FONT_SIZE, state.fontSize);
+        } catch (err) {
+            console.warn("Failed saving theme settings:", err);
+        }
+    }
+
+    /* ==========================================================================
+       3. ACCESSIBLE SVG VISUAL GENERATOR
+       ========================================================================== */
+    /**
+     * Renders a vector visual graphic representing a sign or alphabet letter
+     */
+    function renderSignSVG(item) {
+        const isAlphabet = Boolean(item.letter);
+        const titleText = isAlphabet ? `Letter ${item.letter}` : item.name;
+        const subText = isAlphabet ? `${item.letter} Sign` : item.category;
+        const color = isAlphabet ? "#4F46E5" : (item.lang === "ISL" ? "#0284C7" : "#EC4899");
+
+        // If custom external image exists, render image with fallback
+        if (item.imageSrc && item.imageSrc.trim() !== "") {
+            return `
+                <img src="${item.imageSrc}" alt="Visual demonstration of sign for ${titleText}" 
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" 
+                     style="max-height:100%; max-width:100%; object-fit:contain; border-radius:8px;" />
+                <div style="display:none; width:100%; height:100%;">
+                    ${renderVectorFallbackSVG(titleText, subText, color, isAlphabet, item.letter, item)}
+                </div>
+            `;
+        }
+
+        return renderVectorFallbackSVG(titleText, subText, color, isAlphabet, item.letter, item);
+    }
+
+    function renderVectorFallbackSVG(title, subtitle, brandColor, isAlphabet, letter, item) {
+        if (isAlphabet && letter) {
+            return renderAlphabetSVG(letter.toUpperCase(), brandColor);
+        }
+        return renderWordSignSVG(item || { name: title, category: subtitle }, brandColor);
+    }
+
+    /* --- DISTINCT ALPHABET HANDSHAPE SVG GRAPHICS --- */
+    function renderAlphabetSVG(letter, brandColor) {
+        let handGraphic = '';
+        let animClass = 'anim-pulse';
+
+        function drawPalm(x, y, w, h, rx) {
+            return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${brandColor}" opacity="0.18" stroke="${brandColor}" stroke-width="2"/>`;
+        }
+        function drawFinger(x, y, w, h, rx) {
+            return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${brandColor}" opacity="0.22" stroke="${brandColor}" stroke-width="2"/>`;
+        }
+        function drawThumb(cx, cy, rx, ry, angle) {
+            return `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="${brandColor}" opacity="0.25" stroke="${brandColor}" stroke-width="2" transform="rotate(${angle}, ${cx}, ${cy})"/>`;
+        }
+
+        switch (letter) {
+            case 'A':
+                animClass = 'anim-nod';
+                handGraphic = drawPalm(48, 52, 54, 42, 12) + drawFinger(52, 28, 10, 28, 5) + drawFinger(65, 26, 10, 30, 5) + drawFinger(78, 28, 10, 28, 5) + drawFinger(91, 32, 10, 24, 5) + drawThumb(42, 72, 8, 18, -25);
+                break;
+            case 'B':
+                animClass = 'anim-wave';
+                handGraphic = drawPalm(48, 55, 56, 40, 12) + drawFinger(52, 18, 12, 40, 6) + drawFinger(67, 16, 12, 42, 6) + drawFinger(82, 18, 12, 40, 6) + drawFinger(97, 24, 12, 34, 6) + drawThumb(42, 72, 9, 20, -30);
+                break;
+            case 'C':
+                animClass = 'anim-pulse';
+                handGraphic = drawPalm(50, 40, 70, 75, 18) + drawFinger(55, 20, 14, 28, 7) + drawFinger(72, 16, 14, 32, 7) + drawFinger(89, 20, 14, 28, 7) + drawFinger(104, 30, 14, 20, 7) + drawThumb(42, 75, 10, 22, 20);
+                break;
+            case 'D':
+                animClass = 'anim-pulse';
+                handGraphic = drawPalm(50, 55, 50, 38, 12) + drawFinger(54, 22, 12, 36, 6) + drawFinger(90, 60, 12, 24, 6) + drawFinger(104, 60, 12, 24, 6) + drawFinger(118, 60, 12, 24, 6) + drawThumb(44, 72, 9, 20, -25);
+                break;
+            case 'E':
+                animClass = 'anim-pinch';
+                handGraphic = drawPalm(50, 55, 50, 38, 12) + drawFinger(54, 60, 12, 22, 6) + drawFinger(68, 58, 12, 24, 6) + drawFinger(82, 60, 12, 22, 6) + drawFinger(96, 64, 12, 18, 6) + drawThumb(44, 72, 9, 20, -25);
+                break;
+            case 'F':
+                animClass = 'anim-pulse';
+                handGraphic = drawPalm(50, 55, 50, 38, 12) + drawFinger(90, 22, 12, 36, 6) + drawFinger(104, 20, 12, 38, 6) + drawFinger(118, 22, 12, 36, 6) + drawThumb(44, 72, 9, 20, -25) + `<circle cx="62" cy="65" r="14" fill="none" stroke="${brandColor}" stroke-width="3"/>`;
+                break;
+            case 'G':
+                animClass = 'anim-wave';
+                handGraphic = drawPalm(60, 55, 55, 35, 12) + drawFinger(30, 52, 35, 12, 6) + drawFinger(30, 70, 35, 12, 6) + drawThumb(110, 65, 10, 22, 90);
+                break;
+            case 'H':
+                animClass = 'anim-wave';
+                handGraphic = drawPalm(65, 55, 50, 35, 12) + drawFinger(25, 52, 40, 12, 6) + drawFinger(25, 68, 40, 12, 6) + drawThumb(110, 65, 10, 22, 90);
+                break;
+            case 'I':
+                animClass = 'anim-pulse';
+                handGraphic = drawPalm(50, 55, 50, 38, 12) + drawFinger(54, 60, 12, 22, 6) + drawFinger(68, 58, 12, 24, 6) + drawFinger(82, 60, 12, 22, 6) + drawFinger(96, 64, 12, 18, 6) + drawFinger(110, 20, 12, 40, 6);
+                break;
+            case 'J':
+                animClass = 'anim-lift';
+                handGraphic = drawPalm(50, 55, 50, 38, 12) + drawFinger(54, 60, 12, 22, 6) + drawFinger(68, 58, 12, 24, 6) + drawFinger(82, 60, 12, 22, 6) + drawFinger(96, 64, 12, 18, 6) + drawFinger(110, 20, 12, 40, 6) + `<path d="M 120 60 C 140 60, 150 90, 140 110" stroke="${brandColor}" stroke-width="3" stroke-dasharray="4 3" fill="none" class="anim-dash"/><polygon points="140,110 135,100 148,104" fill="${brandColor}"/>`;
+                break;
+            case 'K':
+                animClass = 'anim-nod';
+                handGraphic = drawPalm(50, 55, 50, 38, 12) + drawFinger(54, 20, 12, 38, 6) + drawFinger(80, 35, 12, 30, 6) + drawThumb(42, 72, 9, 20, -25);
+                break;
+            case 'L':
+                animClass = 'anim-pulse';
+                handGraphic = drawPalm(65, 55, 50, 38, 12) + drawFinger(70, 18, 12, 40, 6) + drawThumb(20, 70, 12, 35, 90);
+                break;
+            case 'M':
+                animClass = 'anim-rub';
+                handGraphic = drawPalm(50, 55, 55, 38, 12) + drawFinger(54, 58, 12, 20, 6) + drawFinger(68, 55, 12, 23, 6) + drawFinger(82, 58, 12, 20, 6) + drawFinger(54, 38, 12, 22, 6) + drawFinger(68, 35, 12, 25, 6) + drawThumb(42, 72, 9, 20, -25);
+                break;
+            case 'N':
+                animClass = 'anim-rub';
+                handGraphic = drawPalm(50, 55, 55, 38, 12) + drawFinger(54, 58, 12, 20, 6) + drawFinger(68, 55, 12, 23, 6) + drawFinger(54, 38, 12, 22, 6) + drawFinger(68, 35, 12, 25, 6) + drawThumb(42, 72, 9, 20, -25);
+                break;
+            case 'O':
+                animClass = 'anim-pulse';
+                handGraphic = drawPalm(55, 45, 55, 60, 18) + drawFinger(60, 25, 14, 25, 7) + drawFinger(76, 22, 14, 28, 7) + drawFinger(92, 25, 14, 25, 7) + drawFinger(106, 35, 14, 18, 7) + drawThumb(42, 75, 10, 22, 25);
+                break;
+            case 'P':
+                animClass = 'anim-lift';
+                handGraphic = drawPalm(55, 55, 50, 38, 12) + drawFinger(60, 20, 12, 38, 6) + drawFinger(85, 35, 12, 30, 6) + drawThumb(44, 72, 9, 20, -25);
+                break;
+            case 'Q':
+                animClass = 'anim-lift';
+                handGraphic = drawPalm(60, 55, 50, 38, 12) + drawFinger(65, 20, 12, 38, 6) + drawFinger(80, 20, 12, 38, 6) + drawThumb(44, 72, 9, 20, 25);
+                break;
+            case 'R':
+                animClass = 'anim-pulse';
+                handGraphic = drawPalm(50, 55, 50, 38, 12) + drawFinger(54, 20, 12, 38, 6) + drawFinger(80, 20, 12, 38, 6) + drawThumb(42, 72, 9, 20, -25);
+                break;
+            case 'S':
+                animClass = 'anim-pinch';
+                handGraphic = drawPalm(50, 55, 55, 42, 14) + drawThumb(42, 72, 10, 24, -20);
+                break;
+            case 'T':
+                animClass = 'anim-rub';
+                handGraphic = drawPalm(50, 55, 55, 42, 14) + drawFinger(54, 58, 12, 20, 6) + drawThumb(42, 72, 10, 24, -20);
+                break;
+            case 'U':
+                animClass = 'anim-wave';
+                handGraphic = drawPalm(50, 55, 55, 38, 12) + drawFinger(54, 20, 14, 38, 7) + drawFinger(72, 20, 14, 38, 7) + drawThumb(42, 72, 9, 20, -25);
+                break;
+            case 'V':
+                animClass = 'anim-wave';
+                handGraphic = drawPalm(55, 60, 45, 32, 12) + drawFinger(45, 20, 14, 42, 7) + drawFinger(85, 20, 14, 42, 7) + drawThumb(44, 72, 9, 20, -25);
+                break;
+            case 'W':
+                animClass = 'anim-wave';
+                handGraphic = drawPalm(55, 60, 55, 32, 12) + drawFinger(40, 20, 14, 42, 7) + drawFinger(62, 18, 14, 44, 7) + drawFinger(84, 20, 14, 42, 7) + drawThumb(44, 72, 9, 20, -25);
+                break;
+            case 'X':
+                animClass = 'anim-nod';
+                handGraphic = drawPalm(50, 55, 50, 38, 12) + drawFinger(54, 60, 14, 20, 7) + drawThumb(42, 72, 9, 20, -25) + `<path d="M 60 55 L 90 35" stroke="${brandColor}" stroke-width="12" stroke-linecap="round" opacity="0.3"/>`;
+                break;
+            case 'Y':
+                animClass = 'anim-pulse';
+                handGraphic = drawPalm(55, 55, 50, 38, 12) + drawThumb(20, 65, 12, 35, 90) + drawFinger(90, 60, 12, 22, 6) + drawFinger(104, 58, 12, 24, 6) + drawFinger(118, 60, 12, 22, 6) + drawFinger(132, 64, 12, 18, 6);
+                break;
+            case 'Z':
+                animClass = 'anim-dash';
+                handGraphic = drawPalm(50, 55, 50, 38, 12) + drawFinger(54, 20, 14, 38, 7) + drawThumb(42, 72, 9, 20, -25) + `<path d="M 20 30 L 95 30 L 20 80 L 95 80" stroke="${brandColor}" stroke-width="3" stroke-dasharray="5 4" fill="none"/><polygon points="95,80 85,74 85,86" fill="${brandColor}"/>`;
+                break;
+            default:
+                animClass = 'anim-pulse';
+                handGraphic = drawPalm(50, 50, 60, 50, 14) + drawFinger(54, 22, 14, 32, 7) + drawFinger(72, 20, 14, 34, 7) + drawFinger(90, 22, 14, 32, 7) + drawThumb(40, 70, 10, 22, -30);
+        }
+
+        return `
+            <svg viewBox="-20 -20 240 200" width="100%" height="100%" role="img" aria-label="Fingerspelling sign diagram for letter ${letter}">
+                <defs>
+                    <filter id="shadow-${letter}" x="-20%" y="-20%" width="140%" height="140%">
+                        <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="${brandColor}" flood-opacity="0.15"/>
+                    </filter>
+                </defs>
+                <rect x="10" y="10" width="180" height="140" rx="14" fill="#FFFFFF" stroke="${brandColor}" stroke-width="2" />
+                <g transform="translate(32, 18)" class="${animClass}" filter="url(#shadow-${letter})">
+                    ${handGraphic}
+                </g>
+                <circle cx="160" cy="38" r="20" fill="${brandColor}" />
+                <text x="160" y="45" font-size="18" font-weight="900" fill="#FFFFFF" text-anchor="middle" font-family="Lexend, sans-serif">${letter}</text>
+                <text x="100" y="140" font-size="12" font-weight="700" fill="#475569" text-anchor="middle">Letter ${letter} Sign</text>
+            </svg>
+        `;
+    }
+
+    /* --- DISTINCT WORD SIGN SVG GRAPHICS --- */
+    function renderWordSignSVG(item, brandColor) {
+        const id = item.id || '';
+        const name = (item.name || '').toLowerCase();
+        let svgContent = '';
+
+        function palm(x, y, w, h, rx) {
+            return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+rx+'" fill="'+brandColor+'" opacity="0.18" stroke="'+brandColor+'" stroke-width="2"/>';
+        }
+        function finger(x, y, w, h, rx) {
+            return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+rx+'" fill="'+brandColor+'" opacity="0.22" stroke="'+brandColor+'" stroke-width="2"/>';
+        }
+        function thumb(cx, cy, rx, ry, angle) {
+            return '<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="'+brandColor+'" opacity="0.25" stroke="'+brandColor+'" stroke-width="2" transform="rotate('+angle+', '+cx+', '+cy+')"/>';
+        }
+
+        if (id.includes('hello') || name.includes('hello')) {
+            svgContent = '<path d="M 50 100 C 40 85, 40 50, 60 40 C 75 35, 90 45, 90 60 C 90 70, 85 75, 90 85" stroke="#94A3B8" stroke-width="3" fill="none" stroke-linecap="round"/><g transform="translate(85, 30)" class="anim-wave">'+palm(0, 0, 34, 42, 10)+finger(4, -22, 10, 24, 5)+finger(16, -24, 10, 26, 5)+finger(28, -22, 10, 24, 5)+'</g><path d="M 120 25 C 145 15, 165 35, 180 25" stroke="'+brandColor+'" stroke-width="3.5" stroke-dasharray="4 3" fill="none"/><polygon points="180,25 170,20 172,30" fill="'+brandColor+'"/>';
+        } else if (id.includes('thank') || name.includes('thank')) {
+            svgContent = '<path d="M 60 40 C 75 40, 85 50, 80 70 C 75 80, 65 90, 50 95" stroke="#94A3B8" stroke-width="3" fill="none"/><g class="anim-lift">'+palm(70, 60, 34, 42, 10)+finger(74, 38, 10, 24, 5)+finger(86, 36, 10, 26, 5)+finger(98, 38, 10, 24, 5)+'</g><path d="M 100 60 L 145 60" stroke="'+brandColor+'" stroke-width="3" stroke-dasharray="4 3"/><polygon points="145,60 135,54 135,66" fill="'+brandColor+'"/>';
+        } else if (id.includes('please') || name.includes('please')) {
+            svgContent = '<path d="M 60 110 L 60 50 C 60 40, 140 40, 140 50 L 140 110" stroke="#94A3B8" stroke-width="3" fill="none"/><g transform="translate(85, 55)" class="anim-rub">'+palm(0, 0, 34, 42, 10)+finger(4, -22, 10, 24, 5)+finger(16, -24, 10, 26, 5)+finger(28, -22, 10, 24, 5)+'</g><path d="M 100 45 A 22 22 0 1 1 78 67" stroke="'+brandColor+'" stroke-width="3" stroke-dasharray="4 3" fill="none"/><polygon points="78,67 76,57 86,61" fill="'+brandColor+'"/>';
+        } else if (id.includes('goodbye') || name.includes('goodbye')) {
+            svgContent = '<g transform="translate(85, 35)" class="anim-wave">'+palm(10, 35, 42, 48, 12)+finger(14, 8, 11, 30, 6)+finger(27, 5, 11, 33, 6)+finger(40, 8, 11, 30, 6)+'</g><path d="M 75 25 C 65 35, 65 55, 75 65 M 145 25 C 155 35, 155 55, 145 65" stroke="'+brandColor+'" stroke-width="3" stroke-dasharray="3 3" fill="none"/>';
+        } else if (id.includes('namaste') || name.includes('namaste')) {
+            svgContent = '<g transform="translate(85, 30)" class="anim-pulse">'+palm(0, 15, 28, 55, 10)+finger(2, -10, 9, 28, 5)+finger(13, -12, 9, 30, 5)+finger(24, -10, 9, 28, 5)+'</g><path d="M 70 20 C 100 10, 130 10, 130 20" stroke="'+brandColor+'" stroke-width="2.5" stroke-dasharray="3 3" fill="none"/>';
+        } else if (id.includes('yes') || name.includes('yes')) {
+            svgContent = '<g transform="translate(85, 45)" class="anim-nod">'+palm(0, 0, 42, 48, 12)+thumb(42, 35, 9, 22, -30)+'</g><path d="M 145 35 L 145 85" stroke="'+brandColor+'" stroke-width="3.5" stroke-dasharray="4 3"/><polygon points="145,85 140,75 150,75" fill="'+brandColor+'"/><polygon points="145,35 140,45 150,45" fill="'+brandColor+'"/>';
+        } else if (id.includes('no') || name.includes('no')) {
+            svgContent = '<g transform="translate(70, 40)" class="anim-pinch">'+palm(0, 20, 55, 38, 12)+finger(8, -5, 12, 26, 6)+finger(24, -8, 12, 29, 6)+thumb(58, 38, 9, 20, -60)+'</g><path d="M 135 30 L 125 43 M 140 50 L 128 46" stroke="'+brandColor+'" stroke-width="3"/>';
+        } else if (id.includes('help') || name.includes('help')) {
+            svgContent = '<rect x="60" y="85" width="80" height="15" rx="6" fill="#94A3B8"/><g transform="translate(80, 35)" class="anim-lift">'+palm(0, 20, 42, 35, 10)+thumb(42, 40, 9, 20, -40)+'</g><path d="M 150 90 L 150 35" stroke="'+brandColor+'" stroke-width="3.5" stroke-dasharray="4 3"/><polygon points="150,35 144,45 156,45" fill="'+brandColor+'"/>';
+        } else if (id.includes('friend') || name.includes('friend')) {
+            svgContent = '<g transform="translate(65, 40)" class="anim-pulse">'+palm(0, 35, 38, 28, 10)+finger(4, 10, 12, 28, 6)+'</g><g transform="translate(55, 35)" class="anim-pulse">'+palm(0, 35, 38, 28, 10)+finger(4, 10, 12, 28, 6)+'</g>';
+        } else if (id.includes('learn') || name.includes('learn')) {
+            svgContent = '<rect x="50" y="95" width="70" height="12" rx="4" fill="#94A3B8"/><g class="anim-lift">'+palm(80, 35, 38, 32, 10)+finger(84, 10, 11, 28, 6)+finger(97, 8, 11, 30, 6)+'</g>';
+        } else if (id.includes('what') || name.includes('what')) {
+            svgContent = '<g transform="translate(50, 45)" class="anim-wave">'+palm(0, 15, 38, 32, 10)+finger(4, -8, 11, 26, 6)+finger(17, -10, 11, 28, 6)+'</g><g transform="translate(65, 45)" class="anim-wave">'+palm(0, 15, 38, 32, 10)+finger(4, -8, 11, 26, 6)+finger(17, -10, 11, 28, 6)+'</g><path d="M 40 60 L 25 60 M 160 60 L 175 60" stroke="'+brandColor+'" stroke-width="3" stroke-linecap="round"/>';
+        } else if (id.includes('where') || name.includes('where')) {
+            svgContent = '<g transform="translate(95, 30)" class="anim-wave">'+palm(0, 40, 32, 38, 10)+finger(4, 12, 11, 32, 6)+'</g><path d="M 80 20 C 70 30, 70 50, 80 60 M 130 20 C 140 30, 140 50, 130 60" stroke="'+brandColor+'" stroke-width="3" stroke-dasharray="3 3" fill="none"/>';
+        } else if (id.includes('how') || name.includes('how')) {
+            svgContent = '<g transform="translate(60, 40)" class="anim-rub">'+palm(0, 0, 40, 32, 10)+finger(4, -25, 11, 28, 6)+finger(17, -28, 11, 31, 6)+'</g><g transform="translate(95, 40)" class="anim-rub">'+palm(0, 0, 40, 32, 10)+finger(4, -25, 11, 28, 6)+finger(17, -28, 11, 31, 6)+'</g><path d="M 85 25 C 110 25, 120 50, 105 70" stroke="'+brandColor+'" stroke-width="3" stroke-dasharray="4 3" fill="none"/><polygon points="105,70 102,60 112,64" fill="'+brandColor+'"/>';
+        } else if (id.includes('mother') || name.includes('mother')) {
+            svgContent = '<path d="M 50 35 C 70 35, 80 45, 75 75 C 70 85, 60 95, 45 98" stroke="#94A3B8" stroke-width="3" fill="none"/><g class="anim-tap">'+palm(65, 60, 32, 35, 10)+finger(69, 35, 10, 28, 5)+finger(82, 33, 10, 30, 5)+'</g>';
+        } else if (id.includes('father') || name.includes('father')) {
+            svgContent = '<path d="M 50 85 C 70 85, 80 65, 75 35 C 70 25, 60 20, 45 20" stroke="#94A3B8" stroke-width="3" fill="none"/><g class="anim-tap">'+palm(65, 20, 32, 35, 10)+finger(69, -5, 10, 28, 5)+finger(82, -7, 10, 30, 5)+'</g>';
+        } else if (id.includes('water') || name.includes('water')) {
+            svgContent = '<path d="M 50 40 C 70 40, 80 50, 75 75" stroke="#94A3B8" stroke-width="3" fill="none"/><g transform="translate(75, 40)" class="anim-tap">'+palm(0, 0, 36, 38, 10)+finger(4, -22, 11, 24, 5)+finger(16, -25, 11, 27, 5)+finger(28, -22, 11, 24, 5)+'</g>';
+        } else if (id.includes('happy') || name.includes('happy')) {
+            svgContent = '<rect x="70" y="45" width="60" height="60" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="2"/><g class="anim-lift">'+palm(80, 70, 38, 32, 10)+finger(84, 45, 11, 28, 6)+finger(97, 43, 11, 30, 6)+'</g>';
+        } else if (id.includes('love') || name.includes('love')) {
+            svgContent = '<g transform="translate(75, 30)" class="anim-pulse">'+palm(20, 35, 42, 42, 12)+thumb(-5, 50, 9, 22, -70)+finger(25, 10, 12, 28, 6)+finger(52, 8, 12, 30, 6)+'</g>';
+        } else if (id.includes('num-1') || name.includes('1')) {
+            svgContent = '<g transform="translate(90, 30)" class="anim-pulse">'+palm(0, 38, 32, 38, 10)+finger(4, 10, 11, 32, 6)+'</g>';
+        } else if (id.includes('num-5') || name.includes('5')) {
+            svgContent = '<g transform="translate(65, 35)" class="anim-pulse">'+palm(20, 35, 50, 38, 12)+finger(24, 8, 12, 30, 6)+finger(40, 5, 12, 33, 6)+finger(56, 8, 12, 30, 6)+finger(72, 15, 12, 22, 6)+thumb(18, 55, 9, 22, -80)+'</g>';
+        } else {
+            svgContent = '<g transform="translate(70, 20)">'+palm(25, 45, 50, 55, 12)+finger(29, 18, 12, 30, 6)+finger(45, 15, 12, 33, 6)+finger(61, 18, 12, 30, 6)+'</g>';
+        }
+
+        return '<svg viewBox="-20 -20 280 200" width="100%" height="100%" role="img" aria-label="Sign diagram for '+item.name+'"><rect x="10" y="10" width="220" height="140" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5" />'+svgContent+'<text x="120" y="142" font-size="13" font-weight="700" fill="#0F172A" text-anchor="middle" font-family="Lexend, sans-serif">"'+item.name+'"</text></svg>';
+    }    /* ==========================================================================
+       4. SCREEN READER ANNOUNCER & A11Y HELPERS
+       ========================================================================== */
+    function announce(message) {
+        const announcer = document.getElementById("aria-announcer");
+        if (announcer) {
+            announcer.textContent = "";
+            setTimeout(() => {
+                announcer.textContent = message;
+            }, 50);
+        }
+    }
+
+    /* ==========================================================================
+       5. NAVIGATION & SECTION ROUTER
+       ========================================================================== */
+    function setupNavigation() {
+        const navLinks = document.querySelectorAll(".nav-link, .nav-trigger");
+        const sections = document.querySelectorAll(".view-section");
+        const mobileBtn = document.getElementById("mobile-menu-btn");
+        const mainNav = document.querySelector(".main-nav");
+
+        function navigateToSection(targetId) {
+            const targetSection = document.getElementById(targetId);
+            if (!targetSection) return;
+
+            // Hide all sections
+            sections.forEach(sec => sec.classList.remove("active"));
+            targetSection.classList.add("active");
+
+            // Update Nav link active states
+            document.querySelectorAll(".nav-link").forEach(link => {
+                if (link.dataset.section === targetId) {
+                    link.classList.add("active");
+                    link.setAttribute("aria-current", "page");
+                } else {
+                    link.classList.remove("active");
+                    link.removeAttribute("aria-current");
+                }
+            });
+
+            state.activeSection = targetId;
+
+            // Close mobile menu if open
+            if (mainNav && mainNav.classList.contains("is-open")) {
+                mainNav.classList.remove("is-open");
+                mobileBtn.setAttribute("aria-expanded", "false");
+            }
+
+            // Scroll to top smooth
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Context-specific actions
+            if (targetId === "dictionary") {
+                renderDictionary();
+            } else if (targetId === "alphabet") {
+                renderAlphabet();
+            } else if (targetId === "learn") {
+                renderFlashcard();
+            } else if (targetId === "quiz") {
+                if (!state.quizState.active) {
+                    initQuiz();
+                }
+            }
+
+            announce(`Navigated to ${targetId.charAt(0).toUpperCase() + targetId.slice(1)} section`);
+        }
+
+        // Link click listeners
+        navLinks.forEach(link => {
+            link.addEventListener("click", (e) => {
+                const href = link.getAttribute("href");
+                if (href && href.startsWith("#")) {
+                    e.preventDefault();
+                    const targetId = href.substring(1);
+                    navigateToSection(targetId);
+                    window.location.hash = targetId;
+                }
+            });
+        });
+
+        // Handle direct Hash URLs (e.g. index.html#learn)
+        window.addEventListener("hashchange", () => {
+            const hash = window.location.hash.replace("#", "");
+            if (hash) {
+                navigateToSection(hash);
+            }
+        });
+
+        if (window.location.hash) {
+            const initialHash = window.location.hash.replace("#", "");
+            navigateToSection(initialHash);
+        }
+
+        // Mobile Menu Toggle
+        if (mobileBtn && mainNav) {
+            mobileBtn.addEventListener("click", () => {
+                const expanded = mobileBtn.getAttribute("aria-expanded") === "true";
+                mobileBtn.setAttribute("aria-expanded", (!expanded).toString());
+                mainNav.classList.toggle("is-open");
+            });
+        }
+    }
+
+    /* ==========================================================================
+       6. THEME & FONT ACCESSIBILITY CONTROLS
+       ========================================================================== */
+    function setupAccessibilityControls() {
+        const contrastBtn = document.getElementById("contrast-toggle");
+        const fontDecreaseBtn = document.getElementById("font-decrease");
+        const fontIncreaseBtn = document.getElementById("font-increase");
+
+        // Apply loaded settings
+        document.documentElement.setAttribute("data-theme", state.theme);
+        document.documentElement.setAttribute("data-fontsize", state.fontSize);
+
+        if (contrastBtn) {
+            contrastBtn.addEventListener("click", () => {
+                state.theme = state.theme === "contrast" ? "default" : "contrast";
+                document.documentElement.setAttribute("data-theme", state.theme);
+                saveThemeState();
+                announce(`High contrast mode ${state.theme === "contrast" ? "enabled" : "disabled"}`);
+            });
+        }
+
+        if (fontIncreaseBtn && fontDecreaseBtn) {
+            fontIncreaseBtn.addEventListener("click", () => {
+                if (state.fontSize === "medium") state.fontSize = "large";
+                else if (state.fontSize === "large") state.fontSize = "xlarge";
+                document.documentElement.setAttribute("data-fontsize", state.fontSize);
+                saveThemeState();
+                announce(`Text size set to ${state.fontSize}`);
+            });
+
+            fontDecreaseBtn.addEventListener("click", () => {
+                if (state.fontSize === "xlarge") state.fontSize = "large";
+                else if (state.fontSize === "large") state.fontSize = "medium";
+                document.documentElement.setAttribute("data-fontsize", state.fontSize);
+                saveThemeState();
+                announce(`Text size set to ${state.fontSize}`);
+            });
+        }
+    }
+
+    /* ==========================================================================
+       7. DICTIONARY MODULE
+       ========================================================================== */
+    function renderDictionary() {
+        const grid = document.getElementById("dictionary-grid");
+        const resultsCount = document.getElementById("dict-results-count");
+        const emptyState = document.getElementById("dict-empty-state");
+        const resetBtn = document.getElementById("reset-filters-btn");
+
+        if (!grid) return;
+
+        // Filter signs dataset
+        const filtered = SIGNS_DATA.filter(sign => {
+            // Search query
+            const matchesQuery = state.dictSearchQuery === "" ||
+                sign.name.toLowerCase().includes(state.dictSearchQuery.toLowerCase()) ||
+                sign.category.toLowerCase().includes(state.dictSearchQuery.toLowerCase()) ||
+                sign.description.toLowerCase().includes(state.dictSearchQuery.toLowerCase());
+
+            // Category filter
+            const matchesCategory = state.dictCategoryFilter === "all" ||
+                sign.category.toLowerCase() === state.dictCategoryFilter.toLowerCase();
+
+            // Language filter
+            const matchesLang = state.dictLangFilter === "all" ||
+                sign.lang === state.dictLangFilter;
+
+            return matchesQuery && matchesCategory && matchesLang;
+        });
+
+        // Update meta text
+        if (resultsCount) {
+            resultsCount.textContent = `Showing ${filtered.length} of ${SIGNS_DATA.length} signs`;
+        }
+
+        const isFiltered = state.dictSearchQuery !== "" || state.dictCategoryFilter !== "all" || state.dictLangFilter !== "all";
+        if (resetBtn) {
+            resetBtn.hidden = !isFiltered;
+        }
+
+        if (filtered.length === 0) {
+            grid.innerHTML = "";
+            if (emptyState) emptyState.hidden = false;
+            return;
+        }
+
+        if (emptyState) emptyState.hidden = true;
+
+        grid.innerHTML = filtered.map(sign => {
+            const isLearned = state.learnedSigns.has(sign.id);
+            return `
+                <article class="sign-card" data-id="${sign.id}">
+                    <div class="sign-card-visual">
+                        ${renderSignSVG(sign)}
+                    </div>
+                    <div class="sign-card-body">
+                        <div class="sign-card-header">
+                            <h3 class="sign-card-title">${sign.name}</h3>
+                            <span class="tag-badge tag-lang">${sign.lang}</span>
+                        </div>
+                        <span class="tag-badge tag-category" style="align-self:flex-start; margin-bottom:0.5rem;">${sign.category}</span>
+                        <p class="sign-card-desc">${sign.description}</p>
+                        <div class="sign-card-footer">
+                            <button class="btn btn-learned-toggle ${isLearned ? 'is-learned' : ''}" data-action="toggle-learned" data-id="${sign.id}">
+                                ${isLearned ? '✓ Learned' : 'Mark Learned'}
+                            </button>
+                            <button class="btn btn-secondary" data-action="practice" data-id="${sign.id}">
+                                Practice
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }).join("");
+
+        // Attach Card Event Listeners
+        grid.querySelectorAll('button[data-action]').forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const action = btn.dataset.action;
+                const id = btn.dataset.id;
+                const sign = SIGNS_DATA.find(s => s.id === id);
+
+                if (action === "toggle-learned") {
+                    if (state.learnedSigns.has(id)) {
+                        state.learnedSigns.delete(id);
+                        announce(`Removed ${sign ? sign.name : ''} from learned signs`);
+                    } else {
+                        state.learnedSigns.add(id);
+                        announce(`Marked ${sign ? sign.name : ''} as learned!`);
+                    }
+                    saveLearnedState();
+                    renderDictionary();
+                    updateHomeStats();
+                } else if (action === "practice") {
+                    // Jump to Learn flashcard mode for this specific sign
+                    const index = SIGNS_DATA.findIndex(s => s.id === id);
+                    if (index !== -1) {
+                        state.currentLearnIndex = index;
+                        const learnNavBtn = document.querySelector('a[data-section="learn"]');
+                        if (learnNavBtn) learnNavBtn.click();
+                    }
+                }
+            });
+        });
+    }
+
+    function setupDictionaryEvents() {
+        const searchInput = document.getElementById("dict-search-input");
+        const searchClear = document.getElementById("dict-search-clear");
+        const langFilter = document.getElementById("dict-lang-filter");
+        const categoryPills = document.getElementById("category-pills");
+        const resetBtn = document.getElementById("reset-filters-btn");
+
+        if (searchInput) {
+            searchInput.addEventListener("input", (e) => {
+                state.dictSearchQuery = e.target.value.trim();
+                if (searchClear) searchClear.hidden = state.dictSearchQuery === "";
+                renderDictionary();
+            });
+        }
+
+        if (searchClear) {
+            searchClear.addEventListener("click", () => {
+                if (searchInput) searchInput.value = "";
+                state.dictSearchQuery = "";
+                searchClear.hidden = true;
+                renderDictionary();
+            });
+        }
+
+        if (langFilter) {
+            langFilter.addEventListener("change", (e) => {
+                state.dictLangFilter = e.target.value;
+                renderDictionary();
+            });
+        }
+
+        if (categoryPills) {
+            categoryPills.addEventListener("click", (e) => {
+                const target = e.target.closest(".pill-btn");
+                if (!target) return;
+
+                categoryPills.querySelectorAll(".pill-btn").forEach(btn => {
+                    btn.classList.remove("active");
+                    btn.setAttribute("aria-selected", "false");
+                });
+
+                target.classList.add("active");
+                target.setAttribute("aria-selected", "true");
+                state.dictCategoryFilter = target.dataset.category;
+                renderDictionary();
+            });
+        }
+
+        window.resetDictionaryFilters = function () {
+            state.dictSearchQuery = "";
+            state.dictCategoryFilter = "all";
+            state.dictLangFilter = "all";
+            if (searchInput) searchInput.value = "";
+            if (langFilter) langFilter.value = "all";
+            if (categoryPills) {
+                categoryPills.querySelectorAll(".pill-btn").forEach(btn => {
+                    btn.classList.toggle("active", btn.dataset.category === "all");
+                });
+            }
+            renderDictionary();
+        };
+
+        if (resetBtn) {
+            resetBtn.addEventListener("click", window.resetDictionaryFilters);
+        }
+    }
+
+    /* ==========================================================================
+       8. ALPHABET MODULE & MODAL
+       ========================================================================== */
+    function renderAlphabet() {
+        const grid = document.getElementById("alphabet-grid");
+        const aslBtn = document.getElementById("alpha-asl-btn");
+        const islBtn = document.getElementById("alpha-isl-btn");
+
+        if (!grid) return;
+
+        const alphabetList = ALPHABET_DATA[state.alphabetLang] || ALPHABET_DATA.ASL;
+
+        if (aslBtn && islBtn) {
+            aslBtn.classList.toggle("active", state.alphabetLang === "ASL");
+            aslBtn.setAttribute("aria-checked", state.alphabetLang === "ASL");
+            islBtn.classList.toggle("active", state.alphabetLang === "ISL");
+            islBtn.setAttribute("aria-checked", state.alphabetLang === "ISL");
+        }
+
+        grid.innerHTML = alphabetList.map(item => `
+            <button class="alphabet-card" data-letter="${item.letter}" aria-label="Inspect letter ${item.letter} sign">
+                <span class="alphabet-card-letter">${item.letter}</span>
+                <div class="alphabet-card-visual">
+                    ${renderSignSVG(item)}
+                </div>
+            </button>
+        `).join("");
+
+        // Attach click to open detail modal
+        grid.querySelectorAll(".alphabet-card").forEach(card => {
+            card.addEventListener("click", () => {
+                const letter = card.dataset.letter;
+                const letterData = alphabetList.find(a => a.letter === letter);
+                if (letterData) {
+                    openModal(letterData);
+                }
+            });
+        });
+    }
+
+    function setupAlphabetEvents() {
+        const aslBtn = document.getElementById("alpha-asl-btn");
+        const islBtn = document.getElementById("alpha-isl-btn");
+
+        if (aslBtn) {
+            aslBtn.addEventListener("click", () => {
+                state.alphabetLang = "ASL";
+                renderAlphabet();
+                announce("Switched to ASL Alphabet");
+            });
+        }
+        if (islBtn) {
+            islBtn.addEventListener("click", () => {
+                state.alphabetLang = "ISL";
+                renderAlphabet();
+                announce("Switched to ISL Alphabet");
+            });
+        }
+    }
+
+    /* Modal Logic */
+    function openModal(data) {
+        const modal = document.getElementById("sign-modal");
+        const modalTitle = document.getElementById("modal-title");
+        const modalDesc = document.getElementById("modal-description");
+        const modalVisual = document.getElementById("modal-visual-container");
+        const modalTip = document.getElementById("modal-tip-box");
+        const modalLang = document.getElementById("modal-tag-lang");
+        const modalCat = document.getElementById("modal-tag-cat");
+
+        if (!modal) return;
+
+        if (data.letter) {
+            modalTitle.textContent = `Letter ${data.letter} (${state.alphabetLang})`;
+            modalDesc.textContent = data.desc;
+            modalTip.innerHTML = `<strong>Handshape Notes:</strong> ${data.tip}`;
+            modalLang.textContent = state.alphabetLang;
+            modalCat.textContent = "Alphabet";
+            modalVisual.innerHTML = renderSignSVG(data);
+        } else {
+            modalTitle.textContent = data.name;
+            modalDesc.textContent = data.description;
+            modalTip.innerHTML = `<strong>Usage Tip:</strong> ${data.tip}`;
+            modalLang.textContent = data.lang;
+            modalCat.textContent = data.category;
+            modalVisual.innerHTML = renderSignSVG(data);
+        }
+
+        modal.setAttribute("aria-hidden", "false");
+
+        // Focus trap & Escape key
+        const closeBtn = document.getElementById("modal-close-btn");
+        if (closeBtn) closeBtn.focus();
+    }
+
+    function closeModal() {
+        const modal = document.getElementById("sign-modal");
+        if (modal) {
+            modal.setAttribute("aria-hidden", "true");
+        }
+    }
+
+    function setupModalEvents() {
+        const closeBtn = document.getElementById("modal-close-btn");
+        const modal = document.getElementById("sign-modal");
+        const practiceBtn = document.getElementById("modal-practice-btn");
+
+        if (closeBtn) {
+            closeBtn.addEventListener("click", closeModal);
+        }
+
+        if (modal) {
+            modal.addEventListener("click", (e) => {
+                if (e.target === modal) closeModal();
+            });
+        }
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && modal && modal.getAttribute("aria-hidden") === "false") {
+                closeModal();
+            }
+        });
+
+        if (practiceBtn) {
+            practiceBtn.addEventListener("click", () => {
+                closeModal();
+                const learnNavBtn = document.querySelector('a[data-section="learn"]');
+                if (learnNavBtn) learnNavBtn.click();
+            });
+        }
+    }
+
+    /* ==========================================================================
+       9. LEARN MODULE (FLASHCARDS)
+       ========================================================================== */
+    function renderFlashcard() {
+        const sign = SIGNS_DATA[state.currentLearnIndex];
+        if (!sign) return;
+
+        const counter = document.getElementById("flashcard-counter");
+        const progressFill = document.getElementById("flashcard-progress-fill");
+        const title = document.getElementById("flashcard-title");
+        const desc = document.getElementById("flashcard-desc");
+        const visual = document.getElementById("flashcard-visual-container");
+        const langTag = document.getElementById("flashcard-lang-tag");
+        const catTag = document.getElementById("flashcard-category-tag");
+        const tipBox = document.getElementById("flashcard-tip-box");
+        const learnedBtn = document.getElementById("mark-learned-btn");
+        const learnedText = document.getElementById("learned-btn-text");
+        const learnedCount = document.getElementById("learned-count");
+        const totalCount = document.getElementById("total-learn-count");
+        const dotsContainer = document.getElementById("flashcard-dots");
+
+        // Update Top Meta
+        if (counter) counter.textContent = `Sign ${state.currentLearnIndex + 1} of ${SIGNS_DATA.length}`;
+        const pct = ((state.currentLearnIndex + 1) / SIGNS_DATA.length) * 100;
+        if (progressFill) progressFill.style.width = `${pct}%`;
+
+        if (title) title.textContent = sign.name;
+        if (desc) desc.textContent = sign.description;
+        if (tipBox) tipBox.innerHTML = `<strong>Usage Tip:</strong> ${sign.tip}`;
+        if (langTag) langTag.textContent = sign.lang;
+        if (catTag) catTag.textContent = sign.category;
+        if (visual) visual.innerHTML = renderSignSVG(sign);
+
+        // Update Learned status
+        const isLearned = state.learnedSigns.has(sign.id);
+        if (learnedBtn) {
+            learnedBtn.classList.toggle("is-learned", isLearned);
+        }
+        if (learnedText) {
+            learnedText.textContent = isLearned ? "Learned ✓" : "Mark as Learned";
+        }
+
+        if (learnedCount) learnedCount.textContent = state.learnedSigns.size;
+        if (totalCount) totalCount.textContent = SIGNS_DATA.length;
+
+        // Render Nav Dots
+        if (dotsContainer) {
+            dotsContainer.innerHTML = SIGNS_DATA.map((s, idx) => `
+                <button class="nav-dot ${idx === state.currentLearnIndex ? 'active' : ''}" 
+                        aria-label="Go to sign ${idx + 1}" data-index="${idx}"></button>
+            `).join("");
+
+            dotsContainer.querySelectorAll(".nav-dot").forEach(dot => {
+                dot.addEventListener("click", () => {
+                    state.currentLearnIndex = parseInt(dot.dataset.index, 10);
+                    renderFlashcard();
+                });
+            });
+        }
+    }
+
+    function setupLearnEvents() {
+        const prevBtn = document.getElementById("prev-card-btn");
+        const nextBtn = document.getElementById("next-card-btn");
+        const learnedBtn = document.getElementById("mark-learned-btn");
+        const flipBtn = document.getElementById("flip-card-btn");
+
+        if (prevBtn) {
+            prevBtn.addEventListener("click", () => {
+                state.currentLearnIndex = (state.currentLearnIndex - 1 + SIGNS_DATA.length) % SIGNS_DATA.length;
+                renderFlashcard();
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener("click", () => {
+                state.currentLearnIndex = (state.currentLearnIndex + 1) % SIGNS_DATA.length;
+                renderFlashcard();
+            });
+        }
+
+        if (learnedBtn) {
+            learnedBtn.addEventListener("click", () => {
+                const currentSign = SIGNS_DATA[state.currentLearnIndex];
+                if (!currentSign) return;
+
+                if (state.learnedSigns.has(currentSign.id)) {
+                    state.learnedSigns.delete(currentSign.id);
+                    announce(`Removed ${currentSign.name} from learned list.`);
+                } else {
+                    state.learnedSigns.add(currentSign.id);
+                    announce(`Awesome! Marked ${currentSign.name} as learned.`);
+                }
+                saveLearnedState();
+                renderFlashcard();
+                updateHomeStats();
+            });
+        }
+
+        if (flipBtn) {
+            flipBtn.addEventListener("click", () => {
+                const title = document.getElementById("flashcard-title");
+                if (title) {
+                    if (title.style.visibility === "hidden") {
+                        title.style.visibility = "visible";
+                        announce("Revealed sign name");
+                    } else {
+                        title.style.visibility = "hidden";
+                        announce("Hidden sign name for practice");
+                    }
+                }
+            });
+        }
+
+        // Global Arrow key listener for flashcards when Learn tab is active
+        document.addEventListener("keydown", (e) => {
+            if (state.activeSection === "learn") {
+                if (e.key === "ArrowLeft") {
+                    if (prevBtn) prevBtn.click();
+                } else if (e.key === "ArrowRight") {
+                    if (nextBtn) nextBtn.click();
+                }
+            }
+        });
+    }
+
+    /* ==========================================================================
+       10. QUIZ ENGINE
+       ========================================================================== */
+    // Non-intrusive Web Audio API sound feedback
+    function playAudioFeedback(isCorrect) {
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+            const ctx = new AudioContext();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            if (isCorrect) {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+                osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1); // E5
+                gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 0.3);
+            } else {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(220, ctx.currentTime); // A3
+                osc.frequency.setValueAtTime(196, ctx.currentTime + 0.1); // G3
+                gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 0.3);
+            }
+        } catch (e) {
+            // Audio context blocked or unsupported
+        }
+    }
+
+    function initQuiz() {
+        // Shuffle dataset to select 5 random questions
+        const shuffled = [...SIGNS_DATA].sort(() => 0.5 - Math.random());
+        const selectedQuestions = shuffled.slice(0, 5).map(correctSign => {
+            // Pick 3 distractors
+            const distractors = SIGNS_DATA
+                .filter(s => s.id !== correctSign.id)
+                .sort(() => 0.5 - Math.random())
+                .slice(0, 3)
+                .map(s => s.name);
+
+            const options = [...distractors, correctSign.name].sort(() => 0.5 - Math.random());
+
+            return {
+                sign: correctSign,
+                options: options
+            };
+        });
+
+        state.quizState = {
+            active: true,
+            questions: selectedQuestions,
+            currentIndex: 0,
+            score: 0,
+            answered: false,
+            userAnswers: []
+        };
+
+        const scoreBadge = document.getElementById("quiz-score-badge");
+        if (scoreBadge) scoreBadge.hidden = false;
+
+        renderQuizQuestion();
+    }
+
+    function renderQuizQuestion() {
+        const wrapper = document.getElementById("quiz-wrapper");
+        const scoreTracker = document.getElementById("current-quiz-score");
+
+        if (!wrapper) return;
+
+        const qState = state.quizState;
+
+        if (scoreTracker) scoreTracker.textContent = qState.score;
+
+        // Check if Quiz Complete
+        if (qState.currentIndex >= qState.questions.length) {
+            renderQuizResults();
+            return;
+        }
+
+        const currentQ = qState.questions[qState.currentIndex];
+
+        wrapper.innerHTML = `
+            <div class="quiz-question-header">
+                <span>Question ${qState.currentIndex + 1} of ${qState.questions.length}</span>
+                <span class="tag-badge tag-lang">${currentQ.sign.lang}</span>
+            </div>
+
+            <div class="quiz-visual">
+                ${renderSignSVG(currentQ.sign)}
+            </div>
+
+            <h3 style="font-family:var(--font-heading); margin-bottom:1rem; text-align:center;">
+                Which sign or word does this gesture represent?
+            </h3>
+
+            <div class="quiz-options-grid">
+                ${currentQ.options.map((opt, i) => `
+                    <button class="quiz-option-btn" data-option="${opt}">
+                        <span>${i + 1}. ${opt}</span>
+                    </button>
+                `).join("")}
+            </div>
+
+            <div id="quiz-feedback-box"></div>
+        `;
+
+        // Attach click to options
+        wrapper.querySelectorAll(".quiz-option-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                if (qState.answered) return;
+                const chosen = btn.dataset.option;
+                handleQuizAnswer(chosen, currentQ.sign.name);
+            });
+        });
+    }
+
+    function handleQuizAnswer(chosen, correctName) {
+        const qState = state.quizState;
+        qState.answered = true;
+
+        const isCorrect = chosen === correctName;
+        if (isCorrect) {
+            qState.score += 1;
+            playAudioFeedback(true);
+            announce("Correct answer!");
+        } else {
+            playAudioFeedback(false);
+            announce(`Incorrect. The correct answer was ${correctName}`);
+        }
+
+        qState.userAnswers.push({
+            question: qState.questions[qState.currentIndex],
+            chosen: chosen,
+            isCorrect: isCorrect
+        });
+
+        // Highlight options
+        const wrapper = document.getElementById("quiz-wrapper");
+        wrapper.querySelectorAll(".quiz-option-btn").forEach(btn => {
+            btn.disabled = true;
+            if (btn.dataset.option === correctName) {
+                btn.classList.add("correct");
+            } else if (btn.dataset.option === chosen && !isCorrect) {
+                btn.classList.add("incorrect");
+            }
+        });
+
+        // Show Feedback Banner & Next Button
+        const feedbackBox = document.getElementById("quiz-feedback-box");
+        if (feedbackBox) {
+            feedbackBox.innerHTML = `
+                <div class="quiz-feedback-banner ${isCorrect ? 'correct' : 'incorrect'}">
+                    <span>${isCorrect ? '✨ Excellent! That is correct.' : `❌ Not quite! Correct answer: ${correctName}`}</span>
+                    <button id="quiz-next-btn" class="btn btn-primary">Next Question &rarr;</button>
+                </div>
+            `;
+
+            document.getElementById("quiz-next-btn").addEventListener("click", () => {
+                qState.currentIndex += 1;
+                qState.answered = false;
+                renderQuizQuestion();
+            });
+        }
+    }
+
+    function renderQuizResults() {
+        const wrapper = document.getElementById("quiz-wrapper");
+        const qState = state.quizState;
+        const total = qState.questions.length;
+        const pct = Math.round((qState.score / total) * 100);
+
+        let badgeTitle = "Beginner Signer 🌟";
+        if (pct >= 80) badgeTitle = "Master Signer 🏆";
+        else if (pct >= 60) badgeTitle = "Intermediate Signer 👍";
+
+        wrapper.innerHTML = `
+            <div class="quiz-summary-card">
+                <span class="badge-pill">${badgeTitle}</span>
+                <h2 style="font-family:var(--font-heading); margin-top:1rem;">Quiz Complete!</h2>
+                
+                <div class="quiz-score-badge-large">${pct}%</div>
+                <p style="color:var(--color-text-muted); font-size:1.1rem; margin-bottom:2rem;">
+                    You scored <strong>${qState.score}</strong> out of <strong>${total}</strong> questions correctly!
+                </p>
+
+                <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+                    <button id="quiz-restart-btn" class="btn btn-primary btn-large">
+                        Try Again
+                    </button>
+                    <a href="#learn" class="btn btn-secondary btn-large nav-trigger" data-section="learn">
+                        Review Flashcards
+                    </a>
+                </div>
+            </div>
+        `;
+
+        document.getElementById("quiz-restart-btn").addEventListener("click", initQuiz);
+        announce(`Quiz completed. Final score: ${qState.score} out of ${total}`);
+    }
+
+    /* ==========================================================================
+       11. INITIALIZATION & HOME STATS
+       ========================================================================== */
+    function updateHomeStats() {
+        const countEl = document.getElementById("stat-count-signs");
+        if (countEl) {
+            countEl.textContent = `${SIGNS_DATA.length}+`;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        initLocalStorage();
+        setupNavigation();
+        setupAccessibilityControls();
+        setupDictionaryEvents();
+        setupAlphabetEvents();
+        setupModalEvents();
+        setupLearnEvents();
+
+        // Initial Renders
+        renderDictionary();
+        renderAlphabet();
+        renderFlashcard();
+        updateHomeStats();
+    });
+
+})();
+
+</script>
+</body>
+</html>
